@@ -2,7 +2,7 @@
   "name": "htc-fitness",
   "author": "SeniorScrumLords",
   "scripts": {
-    "start": "node ./server",
+    "start": "nodemon ./server",
     "build:client": "webpack --mode production",
     "build:dev": "webpack --mode development --watch",
     "dev": "concurrently \"npm run build:dev\" \"npm start\" "
