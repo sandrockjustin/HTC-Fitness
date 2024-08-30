@@ -5,7 +5,8 @@
     "start": "nodemon ./server",
     "build:client": "webpack --mode production",
     "build:dev": "webpack --mode development --watch",
-    "dev": "concurrently \"npm run build:dev\" \"npm start\" "
+    "dev": "concurrently \"npm run build:dev\" \"npm start\" ",
+    "seed": "node ./server/db/seed.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
