@@ -39,7 +39,7 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor: "#1A237E"}}>
       <Toolbar>
         <Typography variant="h2" component="div" sx={{flexGrow: 1}}>
           HTC Fitness
@@ -59,7 +59,8 @@ const NavBar = () => {
             <Button
               variant="contained"
               onClick={handleSearch}
-              sx={{height: "40px", backgroundColor: "#1A237E"}}
+              color="white"
+              sx={{height: "40px", backgroundColor: "#0D1C61"}}
               >
               Search
             </Button>
