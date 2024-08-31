@@ -1,6 +1,12 @@
 const express = require('express');
 const path = require('path')
 const mongoose = require('mongoose');
+const exercisesRouter = require('./routes/exercises.js');
+const dotenv = require('dotenv');
+
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+});
 
 const PORT = 3000;
 const DIST_DIR = path.resolve(__dirname, '../dist/client');
@@ -16,6 +22,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/HTC-Fitness')
 
 app.use(express.json());
 app.use(express.static(DIST_DIR));
+app.use('/api', exercisesRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'))
