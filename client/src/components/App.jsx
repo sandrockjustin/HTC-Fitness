@@ -1,27 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import NavBar from "./NavBar.jsx";
 import HomePage from "./HomePage.jsx";
 import Goals from "./Goals.jsx";
 import Routines from "./Routines.jsx";
 
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+    background: {
+      default: "white"
+    }
+  }
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#121212"
+    }
+  }
+});
+
 const App = () => {
+  //detect user color preference
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = prefersDarkMode ? darkTheme : lightTheme;
+
   return (
-    <div className="app-view">
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
-        <div className="router">
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/routines" element={<Routines />} />
-            <Route path="/goals" element={<Goals />} />
-          </Routes>
-        </div>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/routines" element={<Routines />} />
+          <Route path="/goals" element={<Goals />} />
+        </Routes>
       </Router>
-    </div>
+    </ThemeProvider>
   );
 };
 
-export default App
+export default App;
