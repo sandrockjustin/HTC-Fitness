@@ -22,7 +22,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/HTC-Fitness')
 
 app.use(express.json());
 app.use(express.static(DIST_DIR));
-app.use('/api', exercisesRouter);
+app.use('/api/exercises', exercisesRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(DIST_DIR, 'index.html'))
