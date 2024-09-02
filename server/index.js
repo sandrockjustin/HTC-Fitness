@@ -1,8 +1,8 @@
 const express = require('express');
-const path = require('path')
+const path = require('path');
 const mongoose = require('mongoose');
-const exercisesRouter = require('./routes/exercises.js');
 const dotenv = require('dotenv');
+const exercisesRouter = require('./routes/exercises');
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -13,21 +13,21 @@ const DIST_DIR = path.resolve(__dirname, '../dist/client');
 const app = express();
 
 mongoose.connect('mongodb://127.0.0.1:27017/HTC-Fitness')
-.then(() => {
-  console.log('Connected to MongoDB');
-})
-.catch((err) => {
-  console.error('Error connecting to MongoDB:', err.message);
-});
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err.message);
+  });
 
 app.use(express.json());
 app.use(express.static(DIST_DIR));
-app.use('/api', exercisesRouter);
+app.use('/api/exercises', exercisesRouter);
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(DIST_DIR, 'index.html'))
-})
+  res.sendFile(path.resolve(DIST_DIR, 'index.html'));
+});
 
 app.listen(PORT, () => {
-    console.info(`Server listening at http://127.0.0.1:${PORT}`)
+  console.info(`Server listening at http://127.0.0.1:${PORT}`);
 });
