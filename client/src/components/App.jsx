@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import axios from 'axios'
 
 import NavBar from './NavBar.jsx';
 import HomePage from './HomePage.jsx';
@@ -32,13 +33,24 @@ const App = () => {
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = prefersDarkMode ? darkTheme : lightTheme;
 
+  const [exercises, setExercises] = useState([]);
+  useEffect(() => {
+    axios.get('/api/exercises')
+      .then((response) => {
+        setExercises(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching exercises:", error);
+      });
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <NavBar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage exercises={exercises} />} />
           <Route path="/routines" element={<Routines />} />
           <Route path="/goals" element={<Goals />} />
         </Routes>
