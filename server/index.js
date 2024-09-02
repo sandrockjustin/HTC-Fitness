@@ -28,6 +28,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.info(`Server listening at http://127.0.0.1:${PORT}`);
 });
