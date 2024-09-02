@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const Goals = () => {
-  //State to toggle input visibility
+  // State to toggle input visibility
   const [showInput, setShowInput] = useState(false);
-  //State to store user-input goal weight
+  // State to store user-input goal weight
   const [goalWeight, setGoalWeight] = useState('');
 
   const handleButtonClick = () => {
@@ -14,9 +14,10 @@ const Goals = () => {
     setGoalWeight(e.target.value);
   };
   const handleSubmit = () => {
-    alert(`Goal Weight Set: ${goalWeight} lbs.`)
-    setShowInput(false); //hide input field after submission
-  }
+    // eslint-disable-next-line no-undef
+    alert(`Goal Weight Set: ${goalWeight} lbs.`);
+    setShowInput(false); // hide input field after submission
+  };
 
   return (
     <div>

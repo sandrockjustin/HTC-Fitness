@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react';
 
-const Routines = () => {
-  return (
-    <div>
-      <h1>Routines Page</h1>
-    </div>
-  );
-};
+const Routines = () => (
+  <div>
+    <h1>Routines Page</h1>
+  </div>
+);
 
 export default Routines;

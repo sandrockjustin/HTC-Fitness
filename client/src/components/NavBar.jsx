@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Toolbar from "@mui/material/Toolbar";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Toolbar from '@mui/material/Toolbar';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
 const CustomTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'white'
+      borderColor: 'white',
     },
     '&: hover fieldset': {
-      borderColor: 'white'
+      borderColor: 'white',
     },
     '& input': {
-      color: 'white'
-    }
-  }
+      color: 'white',
+    },
+  },
 });
 
 const NavBar = () => {
@@ -36,17 +36,17 @@ const NavBar = () => {
     if (event.key === 'Enter') {
       handleSearch();
     }
-  }
+  };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: "#1A237E"}}>
+    <AppBar position="static" sx={{ backgroundColor: '#1A237E' }}>
       <Toolbar>
-        <Typography variant="h2" component="div" sx={{flexGrow: 1}}>
+        <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
           HTC Fitness
         </Typography>
         {/* Render search bar only on routines page */}
         {isRoutines && (
-          <Box sx={{alignItems: "center"}}>
+          <Box sx={{ alignItems: 'center' }}>
             <CustomTextField
               variant="outlined"
               placeholder="Exercises..."
@@ -54,13 +54,13 @@ const NavBar = () => {
               onChange={(e) => setSearchInput(e.target.value)}
               value={searchInput}
               onKeyDown={handleEnter}
-              sx={{backgroundColor: "rgba(255, 255, 255, 0.1)"}}
+              sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
             />
             <Button
               variant="contained"
               onClick={handleSearch}
               color="white"
-              sx={{height: "40px", backgroundColor: "#0D1C61"}}
+              sx={{ height: '40px', backgroundColor: '#0D1C61' }}
               >
               Search
             </Button>
