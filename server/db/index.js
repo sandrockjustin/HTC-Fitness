@@ -9,6 +9,19 @@ const exerciseSchema = new mongoose.Schema({
   instructions: String,
 });
 
-const Exercise = mongoose.model('Exercise', exerciseSchema);
+const userSchema= new mongoose.Schema({
+    name: String,
+    saved_exercises: [{
+        id: Number,
+        name: String,
+        muscle: String,
+        equipment: String,
+        difficulty: String,
+        instructions: String
+    }]
+})
 
-module.exports = { Exercise };
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+const User = mongoose.model('User', userSchema)
+
+module.exports = { Exercise, User };
