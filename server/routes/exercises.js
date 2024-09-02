@@ -9,14 +9,14 @@ router.get('/test', (req, res) => {
   res.status(200).send('Test route is working!');
 });
 
-//Route to fetch exercises
+// Route to fetch exercises
 router.get('/', async (req, res) => {
   try {
     // Fetch data from API Ninjas
     const response = await axios.get(API_URL, {
       headers: {
         'X-Api-Key': `${process.env.API_KEY}`,
-      }
+      },
     });
 
     const exercises = response.data;

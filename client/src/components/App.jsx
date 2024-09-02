@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import NavBar from "./NavBar.jsx";
-import HomePage from "./HomePage.jsx";
-import Goals from "./Goals.jsx";
-import Routines from "./Routines.jsx";
+import NavBar from './NavBar.jsx';
+import HomePage from './HomePage.jsx';
+import Goals from './Goals.jsx';
+import Routines from './Routines.jsx';
 
 const lightTheme = createTheme({
   palette: {
-    mode: "light",
+    mode: 'light',
     background: {
-      default: "white"
-    }
-  }
+      default: 'white',
+    },
+  },
 });
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
     background: {
-      default: "#121212"
-    }
-  }
+      default: '#121212',
+    },
+  },
 });
 
 const App = () => {
-  //detect user color preference
-  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  // detect user color preference
+  // eslint-disable-next-line no-undef
+  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const theme = prefersDarkMode ? darkTheme : lightTheme;
 
   return (
