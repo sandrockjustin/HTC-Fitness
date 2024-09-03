@@ -14,7 +14,6 @@ const Goals = () => {
     setGoalWeight(e.target.value);
   };
   const handleSubmit = () => {
-    // eslint-disable-next-line no-undef
     alert(`Goal Weight Set: ${goalWeight} lbs.`);
     setShowInput(false); // hide input field after submission
   };
