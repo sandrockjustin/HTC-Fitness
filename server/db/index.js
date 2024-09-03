@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // Exercise schema
 const exerciseSchema = new mongoose.Schema({
   name: String,
+  type: String,
   muscle: String,
   equipment: String,
   difficulty: String,
@@ -14,6 +15,7 @@ const userSchema= new mongoose.Schema({
     saved_exercises: [{
         id: Number,
         name: String,
+        type: String,
         muscle: String,
         equipment: String,
         difficulty: String,
