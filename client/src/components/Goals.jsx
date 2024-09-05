@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Chart from './Chart.jsx';
 
 const Goals = () => {
   // State to toggle input visibility
@@ -34,6 +35,7 @@ const Goals = () => {
           <button onClick={handleSubmit}>Add Weight</button>
         </div>
       )}
+      <Chart />
     </div>
   );
 };
