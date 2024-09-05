@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const exercisesRouter = require('./routes/exercises');
+const usersRouter = require('./routes/users.js');
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -23,6 +24,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/HTC-Fitness')
 app.use(express.json());
 app.use(express.static(DIST_DIR));
 app.use('/api/exercises', exercisesRouter);
+app.use('/api/users', usersRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'));
