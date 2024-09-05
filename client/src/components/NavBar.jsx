@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Toolbar from '@mui/material/Toolbar';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
 
 const CustomTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
@@ -22,9 +25,10 @@ const CustomTextField = styled(TextField)({
   },
 });
 
-const NavBar = () => {
+const NavBar = ({ setIsAuthenticated }) => {
   const [searchInput, setSearchInput] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const isRoutines = location.pathname === '/routines';
 
   const handleSearch = () => {
@@ -36,6 +40,17 @@ const NavBar = () => {
     if (event.key === 'Enter') {
       handleSearch();
     }
+  };
+
+  const handleLogout = () => {
+    axios.post('/logout')
+      .then(() => {
+        setIsAuthenticated(false);
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.error('Error logging out', error);
+      });
   };
 
   return (
@@ -70,6 +85,7 @@ const NavBar = () => {
           <Button color="inherit" component={Link} to="/">Home</Button>
           <Button color="inherit" component={Link} to="/routines">Routines</Button>
           <Button color="inherit" component={Link} to="/goals">Goals</Button>
+          <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </Box>
       </Toolbar>
     </AppBar>
