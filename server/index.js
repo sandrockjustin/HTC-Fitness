@@ -6,6 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const exercisesRouter = require('./routes/exercises');
+const usersRouter = require('./routes/users.js');
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -88,6 +89,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.use('/api/exercises', exercisesRouter);
+app.use('/api/users', usersRouter);
 
 app.get('/login', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'));

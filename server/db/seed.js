@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Exercise } = require('./index');
+const { Exercise, User } = require('./index');
 
 mongoose.connect('mongodb://localhost:27017/HTC-Fitness');
 
@@ -30,12 +30,37 @@ const exercises = [
   },
 ];
 
+const users = [
+  {
+    name: 'Adonijah',
+    saved_exercises: [],
+  },
+  {
+    name: 'Dakota',
+    saved_exercises: [],
+  },
+  {
+    name: 'Ken',
+    saved_exercises: [],
+  },
+]
+
 Exercise.insertMany(exercises)
   .then(() => {
     console.log('Exercises inserted successfully!');
     mongoose.connection.close();
   })
   .catch((err) => {
-    console.error('Error inserting comics:', err);
+    console.error('Error inserting exercises:', err);
     mongoose.connection.close();
   });
+
+User.insertMany(users)
+    .then(() => {
+      console.log('Users inserted successfully!');
+      mongoose.connection.close();
+    })
+    .catch((err) => {
+      console.error('Error inserting users:', err)
+      mongoose.connection.close();
+    })

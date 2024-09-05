@@ -8,7 +8,8 @@ const HomePage = ({ exercises }) => (
           {exercises.map((exercise, index) => (
             <li key={index}>
               <h2>{exercise.name}</h2>
-              <p>Muscle: {exercise.muscle}</p>
+              <p>Type: {exercise.type.replace('_', " ")}</p>
+              <p>Muscle: {exercise.muscle.replace('_', " ")}</p>
               <p>Equipment: {exercise.equipment}</p>
               <p>Difficulty: {exercise.difficulty}</p>
               <p>Instructions: {exercise.instructions}</p>
