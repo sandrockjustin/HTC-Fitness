@@ -5,10 +5,6 @@ const router = express.Router();
 
 const API_URL = 'https://api.api-ninjas.com/v1/exercises';
 
-router.get('/test', (req, res) => {
-  res.status(200).send('Test route is working!');
-});
-
 // Route to fetch exercises
 router.get('/', async (req, res) => {
   try {
