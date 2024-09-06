@@ -1,24 +1,25 @@
 import React from 'react';
+import { Grid2, Typography } from '@mui/material';
+import ExerciseCard from './ExerciseCard.jsx';
 
 const HomePage = ({ exercises }) => (
   <div>
-    <h1>Home Page</h1>
+    <Typography variant="h3" gutterBottom>
+      Home Page
+    </Typography>
     {exercises.length > 0 ? (
-        <ul>
+        <Grid2 container spacing={2} alignItems="stretch" paddingLeft="6rem">
           {exercises.map((exercise, index) => (
-            <li key={index}>
-              <h2>{exercise.name}</h2>
-              <p>Type: {exercise.type.replace('_', " ")}</p>
-              <p>Muscle: {exercise.muscle.replace('_', " ")}</p>
-              <p>Equipment: {exercise.equipment}</p>
-              <p>Difficulty: {exercise.difficulty}</p>
-              <p>Instructions: {exercise.instructions}</p>
-            </li>
+            <Grid2 xs={12} sm={6} md={4} key={index}>
+              <ExerciseCard exercise={ exercise }/>
+            </Grid2>
           ))}
-        </ul>
-      ) : (
-        <p>No exercises found.</p>
-      )}
+        </Grid2>
+    ) : (
+      <Typography variant="body1">
+      No exercises found.
+    </Typography>
+    )}
   </div>
 );
 
