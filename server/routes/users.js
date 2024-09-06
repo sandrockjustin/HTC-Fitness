@@ -20,9 +20,6 @@ router.post('/:userId', async (req, res) => {
     User.findByIdAndUpdate(userId, {saved_exercises: exercise})
         .then((data) => {
             console.log(data);
-            if (data) {
-                return res.status(404).send('User not found');
-            }
             res.status(200).send(data);
         })
         .catch((error) => {

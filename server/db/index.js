@@ -12,15 +12,7 @@ const exerciseSchema = new mongoose.Schema({
 
 const userSchema= new mongoose.Schema({
     name: String,
-    saved_exercises: [{
-        id: Number,
-        name: String,
-        type: String,
-        muscle: String,
-        equipment: String,
-        difficulty: String,
-        instructions: String
-    }]
+    saved_exercises: [exerciseSchema]
 })
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
