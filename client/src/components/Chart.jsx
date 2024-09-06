@@ -30,8 +30,8 @@ const Chart = () => (
     grid={{ vertical: true, horizontal: true }}
     sx={{
       backgroundColor: '#303030',
-      borderRadius: '12px',
-      padding: '12px',
+      borderRadius: '1rem',
+      padding: '1rem',
       mt: 2,
     }}
   >

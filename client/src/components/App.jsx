@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 
 import NavBar from './NavBar.jsx';
@@ -78,30 +80,33 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        {isAuthenticated && <NavBar setIsAuthenticated={setIsAuthenticated} />}
-        <Routes>
-          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
-          <Route path="/" element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <HomePage exercises={exercises} />
-            </ProtectedRoute>
-          } />
-          <Route path="/routines" element={
-            <ProtectedRoute>
-              <Routines />
-            </ProtectedRoute>
-          } />
-          <Route path="/goals" element={
-            <ProtectedRoute>
-              <Goals />
-            </ProtectedRoute>
-          } />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          {isAuthenticated && <NavBar setIsAuthenticated={setIsAuthenticated} />}
+          <Routes>
+            <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
+            <Route path="/" element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <HomePage exercises={exercises} />
+              </ProtectedRoute>
+            } />
+            <Route path="/routines" element={
+              <ProtectedRoute>
+                <Routines />
+              </ProtectedRoute>
+            } />
+            <Route path="/goals" element={
+              <ProtectedRoute>
+                <Goals />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </LocalizationProvider>
+
   );
 };
 
