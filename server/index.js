@@ -6,7 +6,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const exercisesRouter = require('./routes/exercises');
-const usersRouter = require('./routes/users.js');
+const usersRouter = require('./routes/users');
+const { User } = require('./db');
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -42,14 +43,38 @@ passport.use(new GoogleStrategy({
   clientID: `${process.env.GOOGLE_CLIENT_ID}`,
   clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
   callbackURL: 'http://localhost:3000/auth/google/callback',
-}, ((accessToken, refreshToken, profile, cb) => cb(null, profile))));
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    // Check if User profile exists in DB
+    let user = await User.findOne({ googleId: profile.id });
+
+    if (!user) {
+      // If not, make a new one
+      user = new User({
+        googleId: profile.id,
+        nameFirst: profile.name.givenName,
+        nameLast: profile.name.familyName,
+        email: profile.emails[0].value,
+        goal_weight: '',
+        weights: [],
+        saved_exercises: [],
+      });
+      await user.save();
+    }
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+}));
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then((user) => done(null, user))
+    .catch((err) => done(err, null));
 });
 
 // Middleware to check if user is authenticated
@@ -70,7 +95,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 
 // Check auth
 app.get('/api/check-auth', (req, res) => {
-  res.json({ isAuthenticated: req.isAuthenticated() });
+  res.json({ isAuthenticated: req.isAuthenticated(), user: req.user });
 });
 
 // Logout Route
