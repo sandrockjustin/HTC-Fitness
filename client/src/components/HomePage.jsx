@@ -4,8 +4,8 @@ import ExerciseCard from './ExerciseCard.jsx';
 
 const HomePage = ({ exercises }) => (
   <div>
-    <Typography variant="h3" gutterBottom>
-      Home Page
+    <Typography variant="h4" gutterBottom align="center">
+    {'Welcome, <User>, to the Hyperbolic Time Chamber'}
     </Typography>
     {exercises.length > 0 ? (
         <Grid2 container spacing={2} alignItems="stretch" paddingLeft="6rem">
