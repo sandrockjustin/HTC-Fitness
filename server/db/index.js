@@ -11,7 +11,7 @@ const exerciseSchema = new mongoose.Schema({
 });
 
 const weightSchema = new mongoose.Schema({
-  weight: String,
+  weight: Number,
   date: Date,
 });
 
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   nameFirst: String,
   nameLast: String,
   email: String,
-  goal_weight: String,
+  goal_weight: Number,
   weights: [weightSchema],
   saved_exercises: [exerciseSchema],
 });
