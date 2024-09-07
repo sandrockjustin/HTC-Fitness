@@ -42,6 +42,7 @@ const App = () => {
 
   const [exercises, setExercises] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
     // Check if user is authenticated
@@ -49,9 +50,17 @@ const App = () => {
       try {
         const response = await axios.get('/api/check-auth');
         setIsAuthenticated(response.data.isAuthenticated);
+
+        // Fetch user profile if authenticated
+        if (response.data.isAuthenticated) {
+          const profileResponse = await axios.get('/me');
+          setUserProfile(profileResponse.data);
+        } else {
+          setUserProfile(null);
+        }
       } catch (error) {
-        console.error('Error checking auth', error);
         setIsAuthenticated(false);
+        throw new Error('Error checking auth', error);
       }
     };
 
@@ -66,7 +75,7 @@ const App = () => {
           setExercises(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching exercises:', error);
+          throw new Error('Error fetching exercises:', error);
         });
     }
   }, [isAuthenticated]);
@@ -89,7 +98,7 @@ const App = () => {
             <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
             <Route path="/" element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <HomePage exercises={exercises} />
+                <HomePage user={userProfile} exercises={exercises} />
               </ProtectedRoute>
             } />
             <Route path="/routines" element={
@@ -99,7 +108,7 @@ const App = () => {
             } />
             <Route path="/goals" element={
               <ProtectedRoute>
-                <Goals />
+                <Goals user={userProfile}/>
               </ProtectedRoute>
             } />
           </Routes>
