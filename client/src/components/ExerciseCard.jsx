@@ -6,12 +6,32 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
+import axios from 'axios';
 
-const ExerciseCard = ({ exercise }) => {
+const ExerciseCard = ({ exercise, userId }) => {
   const [showInstructions, setShowInstructions] = useState(false);
-
+  const [showAddButton, setShowAddButton] = useState(false);
+  
   const handleInstructionToggle = () => {
-    setShowInstructions((prevState) => !prevState);
+    setShowInstructions((prevState) => {
+      const newShowInstructions = !prevState;
+      if (newShowInstructions) {
+        setShowAddButton(true);
+      } else {
+        setShowAddButton(false);
+      }
+      return newShowInstructions;
+    });
+  };
+
+  const handleAddToRoutine = async () => {
+    try {
+      await axios.post(`/users/${userId}`, { exercise });
+      alert('Exercise added to routine!');
+    } catch (error) {
+      console.error('Error adding exercise to routine:', error);
+      alert('Failed to add exercise to routine.');
+    }
   };
 
   const formatInstructions = (instructions) => instructions
@@ -44,7 +64,6 @@ const ExerciseCard = ({ exercise }) => {
               .replace('_', ' ')
           }
         </Typography>
-        {/* Only render Equipment and Diff when showInstructions is false */}
         {!showInstructions && (
           <Typography variant="body2" color="textSecondary">
             Equipment: {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1)}
@@ -55,7 +74,6 @@ const ExerciseCard = ({ exercise }) => {
             Difficulty: {exercise.difficulty.charAt(0).toUpperCase() + exercise.difficulty.slice(1)}
           </Typography>
         )}
-        {/* Only render instructions when showInstructions is true */}
         {showInstructions && (
           <div>
             Instructions: {formatInstructions(exercise.instructions)}
@@ -63,9 +81,14 @@ const ExerciseCard = ({ exercise }) => {
         )}
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary" onClick={ handleInstructionToggle }>
-          { showInstructions ? 'Show Less' : 'Learn More' }
+        <Button size="small" color="primary" onClick={handleInstructionToggle}>
+          {showInstructions ? 'Show Less' : 'Learn More'}
         </Button>
+        {showAddButton && (
+          <Button size="small" color="secondary" onClick={handleAddToRoutine}>
+            Add to Routine
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
