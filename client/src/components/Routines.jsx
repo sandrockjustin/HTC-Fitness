@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Card,
@@ -12,14 +12,27 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
-const Routines = ({ savedExercises, userId }) => {
-  const [routineData, setRoutineData] = useState(
-    savedExercises.map((exercise) => ({
-      ...exercise,
-      sets: exercise.sets || null,
-      reps: exercise.reps || null,
-    }))
-  );
+const Routines = ({ userId }) => {
+  const [routineData, setRoutineData] = useState([]);
+
+  const fetchSavedExercises = async () => {
+    try {
+      const response = await axios.get(`/api/users/${userId}`);
+      setRoutineData(
+        response.data.map((exercise) => ({
+          ...exercise,
+          sets: exercise.sets || null,
+          reps: exercise.reps || null,
+        }))
+      );
+    } catch (error) {
+      console.error('Error fetching exercises:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedExercises();
+  }, [userId]);
 
   const handleChange = (index, field, value) => {
     const updatedData = [...routineData];
@@ -33,6 +46,7 @@ const Routines = ({ savedExercises, userId }) => {
         exercises: routineData,
       });
       alert('Routine updated successfully!');
+      fetchSavedExercises();
     } catch (error) {
       console.error('Error updating routine:', error);
       alert('Failed to update routine.');
@@ -42,8 +56,9 @@ const Routines = ({ savedExercises, userId }) => {
   const handleDeleteExercise = async (exerciseId) => {
     try {
       await axios.delete(`/api/users/${userId}/saved-exercises/${exerciseId}`);
-      setRoutineData(routineData.filter((exercise) => exercise._id !== exerciseId));
+
       alert('Exercise deleted successfully!');
+      fetchSavedExercises();
     } catch (error) {
       console.error('Error deleting exercise:', error);
       alert('Failed to delete exercise.');
