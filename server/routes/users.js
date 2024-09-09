@@ -38,22 +38,42 @@ router.post('/:userId', async (req, res) => {
 router.patch('/:userId/saved-exercises', async (req, res) => {
   try {
     const { userId } = req.params;
-    const { exercises } = req.body; // Expecting the updated exercises array
+    const { exercises } = req.body;
 
-    // Find the user by ID and update the saved_exercises field
     const user = await User.findById(userId);
     
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update each exercise in saved_exercises with new sets and reps
     user.saved_exercises = exercises;
-    await user.save(); // Save the updated user document
+    await user.save();
     res.status(200).json({ message: 'Routine updated successfully', user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error updating routine', error });
+  }
+});
+
+router.delete('/:userId/saved-exercises/:exerciseId', async (req, res) => {
+  try {
+    const { userId, exerciseId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.saved_exercises = user.saved_exercises.filter(
+      (exercise) => exercise._id.toString() !== exerciseId
+    );
+
+    await user.save();
+    res.status(200).json({ message: 'Exercise deleted successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting exercise', error });
   }
 });
 

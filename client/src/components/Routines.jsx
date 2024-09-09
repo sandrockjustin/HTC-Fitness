@@ -7,7 +7,9 @@ import {
   Grid,
   TextField,
   Typography,
+  IconButton,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
 const Routines = ({ savedExercises, userId }) => {
@@ -34,6 +36,17 @@ const Routines = ({ savedExercises, userId }) => {
     } catch (error) {
       console.error('Error updating routine:', error);
       alert('Failed to update routine.');
+    }
+  };
+
+  const handleDeleteExercise = async (exerciseId) => {
+    try {
+      await axios.delete(`/api/users/${userId}/saved-exercises/${exerciseId}`);
+      setRoutineData(routineData.filter((exercise) => exercise._id !== exerciseId));
+      alert('Exercise deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting exercise:', error);
+      alert('Failed to delete exercise.');
     }
   };
 
@@ -68,11 +81,25 @@ const Routines = ({ savedExercises, userId }) => {
                   margin="normal"
                 />
               </CardContent>
+              <CardActions>
+                <IconButton
+                  aria-label="delete"
+                  color="error"
+                  onClick={() => handleDeleteExercise(exercise._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </CardActions>
             </Card>
           </Grid>
         ))}
       </Grid>
-      <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ mt: 3 }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        sx={{ mt: 3 }}
+      >
         Save Routine
       </Button>
     </div>
