@@ -67,18 +67,16 @@ const App = () => {
     checkAuth();
   }, []);
 
-  useEffect(() => {
-    // Fetch Exercises
-    if (isAuthenticated) {
-      axios.get('/api/exercises')
-        .then((response) => {
-          setExercises(response.data);
-        })
-        .catch((error) => {
-          throw new Error('Error fetching exercises:', error);
-        });
+  const fetchRandomExercises = async (endpoint = '/api/exercises') => {
+    try {
+      const response = await axios.get(endpoint);
+      const shuffleData = response.data.sort(() => 0.5 - Math.random());
+      const selectExercises = shuffleData.slice(0, 3);
+      setExercises(selectExercises);
+    } catch (error) {
+      console.error('Error Fetching');
     }
-  }, [isAuthenticated]);
+  };
 
   // Protected Route Component
   const ProtectedRoute = ({ children }) => {
@@ -98,7 +96,11 @@ const App = () => {
             <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
             <Route path="/" element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <HomePage user={userProfile} exercises={exercises} />
+                <HomePage
+                  user={userProfile}
+                  exercises={exercises}
+                  fetchRandomExercises={fetchRandomExercises}
+                />
               </ProtectedRoute>
             } />
             <Route path="/routines" element={

@@ -1,27 +1,57 @@
 import React from 'react';
-import { Grid2, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid2,
+  Typography,
+} from '@mui/material';
 import ExerciseCard from './ExerciseCard.jsx';
 
-const HomePage = ({ user, exercises }) => {
+const HomePage = ({ user, exercises, fetchRandomExercises }) => {
   const userName = user ? user.nameFirst : '';
-  const userId = user._id;
-  
+
   return (
     <div>
-      <Typography variant="h4" gutterBottom align="center">
+      <Typography variant="h4" gutterBottom align="center" marginTop="2rem">
       {`Welcome, ${userName}, to the Hyperbolic Time Chamber`}
       </Typography>
+      <Box display="flex" justifyContent="center" gap={2} margin="20px 0">
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => fetchRandomExercises()}
+          sx={{ display: 'block' }}
+        >
+          Get Some Exercises
+        </Button>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => fetchRandomExercises('/api/exercises/biceps')}
+          sx={{ display: 'block' }}
+        >
+          Get Some Biceps Exercises
+        </Button>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => fetchRandomExercises('/api/exercises/quads')}
+          sx={{ display: 'block' }}
+        >
+          Get Some Quads Exercises
+        </Button>
+      </Box>
       {exercises.length > 0 ? (
-          <Grid2 container spacing={2} alignItems="stretch" paddingLeft="6rem">
+          <Grid2 container spacing={2} justifyContent="center" alignItems="stretch">
             {exercises.map((exercise, index) => (
               <Grid2 xs={12} sm={6} md={4} key={index}>
-                <ExerciseCard exercise={ exercise } userId={ userId }/>
+                <ExerciseCard exercise={ exercise } user={ user }/>
               </Grid2>
             ))}
           </Grid2>
       ) : (
-        <Typography variant="body1">
-        No exercises found.
+        <Typography variant="h6">
+        Get Some Exercises!
       </Typography>
       )}
     </div>

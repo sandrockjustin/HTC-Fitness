@@ -8,10 +8,10 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const ExerciseCard = ({ exercise, userId }) => {
+const ExerciseCard = ({ exercise, user }) => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showAddButton, setShowAddButton] = useState(false);
-  
+
   const handleInstructionToggle = () => {
     setShowInstructions((prevState) => {
       const newShowInstructions = !prevState;
@@ -26,7 +26,7 @@ const ExerciseCard = ({ exercise, userId }) => {
 
   const handleAddToRoutine = async () => {
     try {
-      await axios.post(`/api/users/${userId}`, {exercise});
+      await axios.post(`/api/users/${user._id}`, { exercise });
       alert('Exercise added to routine!');
     } catch (error) {
       console.error('Error adding exercise to routine:', error);
