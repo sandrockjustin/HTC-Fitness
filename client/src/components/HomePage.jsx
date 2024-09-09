@@ -4,7 +4,8 @@ import ExerciseCard from './ExerciseCard.jsx';
 
 const HomePage = ({ user, exercises }) => {
   const userName = user ? user.nameFirst : '';
-
+  const userId = user._id;
+  
   return (
     <div>
       <Typography variant="h4" gutterBottom align="center">
@@ -14,7 +15,7 @@ const HomePage = ({ user, exercises }) => {
           <Grid2 container spacing={2} alignItems="stretch" paddingLeft="6rem">
             {exercises.map((exercise, index) => (
               <Grid2 xs={12} sm={6} md={4} key={index}>
-                <ExerciseCard exercise={ exercise }/>
+                <ExerciseCard exercise={ exercise } userId={ userId }/>
               </Grid2>
             ))}
           </Grid2>

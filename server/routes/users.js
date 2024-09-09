@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
 
 // Get a single user that matches _id
 router.post('/:userId', async (req, res) => {
-  // console.log('Request Body', req.body, 'Request Params', req.params)
   const { userId } = req.params;
   const { exercise } = req.body;
 
