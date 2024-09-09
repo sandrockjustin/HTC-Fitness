@@ -15,6 +15,17 @@ const weightSchema = new mongoose.Schema({
   date: Date,
 });
 
+const SavedExerciseSchema = new mongoose.Schema({
+  name: String,
+  type: String,
+  muscle: String,
+  equipment: String,
+  difficulty: String,
+  instructions: String,
+  sets: { type: Number, default: null },
+  reps: { type: Number, default: null },
+});
+
 const userSchema = new mongoose.Schema({
   googleId: { type: String, required: true, unique: true },
   nameFirst: String,
@@ -22,7 +33,7 @@ const userSchema = new mongoose.Schema({
   email: String,
   goal_weight: Number,
   weights: [weightSchema],
-  saved_exercises: [exerciseSchema],
+  saved_exercises: [SavedExerciseSchema],
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
