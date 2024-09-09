@@ -26,7 +26,7 @@ const ExerciseCard = ({ exercise, userId }) => {
 
   const handleAddToRoutine = async () => {
     try {
-      await axios.post(`/users/${userId}`, { exercise });
+      await axios.post(`/api/users/${userId}`, {exercise});
       alert('Exercise added to routine!');
     } catch (error) {
       console.error('Error adding exercise to routine:', error);

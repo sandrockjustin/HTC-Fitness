@@ -103,7 +103,7 @@ const App = () => {
             } />
             <Route path="/routines" element={
               <ProtectedRoute>
-                <Routines />
+                <Routines user={userProfile} />
               </ProtectedRoute>
             } />
             <Route path="/goals" element={
