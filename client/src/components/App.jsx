@@ -87,7 +87,7 @@ const App = () => {
     }
     return children;
   };
-  console.log(userProfile);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={theme}>
@@ -103,7 +103,7 @@ const App = () => {
             } />
             <Route path="/routines" element={
               <ProtectedRoute>
-                <Routines savedExercises={userProfile?.saved_exercises || []} />
+                <Routines savedExercises={userProfile?.saved_exercises || []} userId={userProfile?._id} />
               </ProtectedRoute>
             } />
             <Route path="/goals" element={

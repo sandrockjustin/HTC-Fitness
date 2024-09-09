@@ -20,15 +20,61 @@ router.post('/:userId', async (req, res) => {
   const { userId } = req.params;
   const { exercise } = req.body;
 
-  User.findByIdAndUpdate(userId, { saved_exercises: exercise })
-    .then((data) => {
-      console.log(data);
-      res.status(200).send(data);
-    })
-    .catch((error) => {
-      console.error('Error adding exercise to routine:', error);
-      res.status(500).send('Error adding exercise to routine');
-    });
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.saved_exercises.push(exercise);
+    await user.save();
+
+    res.json({ message: 'Exercises saved successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving exercise', error });
+  }
+});
+
+router.patch('/:userId/saved-exercises', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { exercises } = req.body;
+
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.saved_exercises = exercises;
+    await user.save();
+    res.status(200).json({ message: 'Routine updated successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating routine', error });
+  }
+});
+
+router.delete('/:userId/saved-exercises/:exerciseId', async (req, res) => {
+  try {
+    const { userId, exerciseId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.saved_exercises = user.saved_exercises.filter(
+      (exercise) => exercise._id.toString() !== exerciseId
+    );
+
+    await user.save();
+    res.status(200).json({ message: 'Exercise deleted successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting exercise', error });
+  }
 });
 
 // Endpoint to update user by id
