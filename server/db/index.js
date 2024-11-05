@@ -26,6 +26,13 @@ const SavedExerciseSchema = new mongoose.Schema({
   reps: { type: Number, default: null },
 });
 
+const friendsSchema = new mongoose.Schema({
+  googleId: { type: String, required: true, unique: true },
+  nameFirst: String,
+  nameLast: String,
+  email: String
+});
+
 const userSchema = new mongoose.Schema({
   googleId: { type: String, required: true, unique: true },
   nameFirst: String,
@@ -34,34 +41,10 @@ const userSchema = new mongoose.Schema({
   goal_weight: Number,
   weights: [weightSchema],
   saved_exercises: [SavedExerciseSchema],
+  friends_list: [friendsSchema],
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 const User = mongoose.model('User', userSchema);
 
 module.exports = { Exercise, User };
-
-/*
-
-const userSchema = new mongoose.Schema({
-  googleId: { type: String, required: true, unique: true },
-  nameFirst: String,
-  nameLast: String,
-  email: String,
-  goal_weight: Number,
-  weights: [weightSchema],
-  saved_exercises: [SavedExerciseSchema],
-  badges: [badgeSchema],
-  friends: [friendSchema],
-  points: Number
-});
-
-const badgeSchema = new mongoose.Schema({
-  badgeName: String,
-  badgeIcon: String,
-  badgeDescription: 'You attended 5 meet-ups'
-});
-
-const friendSchema =
-
-*/
