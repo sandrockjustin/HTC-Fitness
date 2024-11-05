@@ -85,6 +85,7 @@ const NavBar = ({ setIsAuthenticated }) => {
           <Button color="inherit" component={Link} to="/">Home</Button>
           <Button color="inherit" component={Link} to="/routines">Routines</Button>
           <Button color="inherit" component={Link} to="/goals">Goals</Button>
+          <Button color="inherit" component={Link} to="/profile">Profile</Button>
           <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </Box>
       </Toolbar>
