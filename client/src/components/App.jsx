@@ -16,6 +16,7 @@ import HomePage from './HomePage.jsx';
 import Goals from './Goals.jsx';
 import Routines from './Routines.jsx';
 import Login from './Login.jsx';
+import Profile from './Profile.jsx';
 
 const lightTheme = createTheme({
   palette: {
@@ -111,6 +112,11 @@ const App = () => {
             <Route path="/goals" element={
               <ProtectedRoute>
                 <Goals user={userProfile}/>
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile user={userProfile}/>
               </ProtectedRoute>
             } />
           </Routes>
