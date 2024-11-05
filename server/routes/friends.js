@@ -43,29 +43,19 @@ router.post('/', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-  User.find({googleId: req.user.googleId})
-  .then((foundUser) => {
-    if (!foundUser){
-      res.sendStatus(404);
-      return;
-    }
+  User.findOneAndUpdate({googleId: req.user.googleId}, {$pull: {friends_list: {googleId: req.params.id}}})
+    .then((foundUser) => {
+      if (!foundUser){
+        res.sendStatus(404);
+        return;
+      }
 
-    // if user is found, reassign friends_list property to exclude item for deletion
-    foundUser.friends_list = foundUser.friends_list.filter((friend) => {
-      return friend.googleId !== req.params.id
+      res.status(200).send(foundUser)
     })
-
-    // return the promise that these changes will be saved
-    return foundUser.save()
-  })
-  .then((updatedUser) => {
-    // once changes have been saved, try to send updatedUser
-    res.status(200).send(updatedUser)
-  })
-  .catch((error) => {
-    console.error(`Error on DELETE request to /api/friends.`)
-    res.sendStatus(500);
-  })
+    .catch((error) => {
+      console.error(`Error on DELETE request to /api/friends.`, error)
+      res.sendStatus(500);
+    })
 })
 
 module.exports = router;
