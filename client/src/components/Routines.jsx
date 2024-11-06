@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
 const Routines = ({ userId }) => {
+  console.log("mlo")
   const [routineData, setRoutineData] = useState([]);
 
   const fetchSavedExercises = async () => {
