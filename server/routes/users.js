@@ -47,6 +47,7 @@ router.patch('/:userId/saved-exercises', async (req, res) => {
     }
 
     user.saved_exercises = exercises;
+    user.numOfSavedExercises = exercises.length;
     await user.save();
     res.status(200).json({ message: 'Routine updated successfully', user });
   } catch (error) {

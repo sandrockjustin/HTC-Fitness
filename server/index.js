@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const exercisesRouter = require('./routes/exercises');
 const usersRouter = require('./routes/users');
+const badgesRouter = require('./routes/badges');
 const { User } = require('./db');
 
 dotenv.config({
@@ -17,7 +18,6 @@ dotenv.config({
 const PORT = 3000;
 const DIST_DIR = path.resolve(__dirname, '../dist/client');
 const app = express();
-
 mongoose.connect('mongodb://127.0.0.1:27017/HTC-Fitness')
   .then(() => {
     console.log('Connected to MongoDB');
@@ -41,9 +41,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GoogleStrategy({
+  // ${process.env.GOOGLE_CALLBACK_URL}
   clientID: `${process.env.GOOGLE_CLIENT_ID}`,
   clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
-  callbackURL: `${process.env.GOOGLE_CALLBACK_URL}` || 'http://localhost:3000/auth/google/callback',
+  callbackURL: 'http://localhost:3000/auth/google/callback',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if User profile exists in DB
@@ -131,7 +132,7 @@ app.post('/logout', (req, res) => {
 
 app.use('/api/exercises', exercisesRouter);
 app.use('/api/users', usersRouter);
-
+app.use('/api/badges', badgesRouter);
 app.get('/login', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'));
 });
@@ -141,5 +142,5 @@ app.get('/', isAuthenticated, (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.info(`Server listening at http://127.0.0.1:${PORT}`);
+  console.info(`Server listening at http://localhost:${PORT}`);
 });

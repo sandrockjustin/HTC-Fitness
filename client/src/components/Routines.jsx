@@ -10,11 +10,19 @@ import {
   IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckboxIcon from '@mui/icons-material/Checkbox';
 import axios from 'axios';
 
 const Routines = ({ userId }) => {
   const [routineData, setRoutineData] = useState([]);
 
+  const handleToggle = (id) => {
+    // Update the completedStatus in routineData directly
+    setRoutineData((prevState) => prevState.map((exercise) => (exercise._id === id
+      ? { ...exercise, completedStatus: !exercise.completedStatus }
+      : exercise)));
+  };
   const fetchSavedExercises = async () => {
     try {
       const response = await axios.get(`/api/users/${userId}`);
@@ -23,7 +31,7 @@ const Routines = ({ userId }) => {
           ...exercise,
           sets: exercise.sets || null,
           reps: exercise.reps || null,
-        }))
+        })),
       );
     } catch (error) {
       console.error('Error fetching exercises:', error);
@@ -75,7 +83,7 @@ const Routines = ({ userId }) => {
           <Grid item xs={12} sm={6} md={4} key={exercise._id}>
             <Card sx={{ height: '100%' }}>
               <CardContent>
-                <Typography variant="h5">{exercise.name}</Typography>
+                <Typography variant="h5">{exercise.name}</Typography><IconButton onClick={() => handleToggle(exercise._id)}>{exercise.completedStatus ? <CheckboxIcon /> : <CheckBoxOutlineBlankIcon />}</IconButton>
                 <Typography variant="body2" color="textSecondary">
                   {`Muscle: ${exercise.muscle.charAt(0).toUpperCase() + exercise.muscle.slice(1)}`}
                 </Typography>
