@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const exercisesRouter = require('./routes/exercises');
 const usersRouter = require('./routes/users');
 const friendsRouter = require('./routes/friends');
+const meetupsRouter = require('./routes/meetups')
 const { User } = require('./db');
 
 dotenv.config({
@@ -133,6 +134,7 @@ app.post('/logout', (req, res) => {
 app.use('/api/exercises', exercisesRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/friends', friendsRouter); // added friends router to main server
+app.use('/api/meetups', meetupsRouter); // added meetups router to main server
 
 app.get('/login', (req, res) => {
   res.sendFile(path.resolve(DIST_DIR, 'index.html'));

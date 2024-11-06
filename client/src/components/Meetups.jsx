@@ -1,5 +1,8 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+// mui components
 import { Box } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -17,39 +20,74 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
-
+import Button from '@mui/material/Button';
 
 const MeetBox = styled(Box)`
-background-color: #f8f5ed
+background-image: url("https://i.imgur.com/UHtnNpg.png");
+background-size: cover;
 
 `;
-///////////////////////////////////////////////////////////////////////////////////////////////////
+
+const SubmitButt = styled(Button)`
+background-color: #5e5e5e;
+color: #bbbbbb;
+`;
+
+/// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
-  console.log("MEETUP PROPS", props);
+  console.log('MEETUP PROPS', props);
   // const [meetupName, setMeetupName] = useState("");
+
+  const [value, setValue] = React.useState(null);
+
+  /// /////////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleCreate = () => {
+    if (value !== null) {
+      console.log(value.$d);
+      const date = value.$d;
+      console.log(date.toString());
+
+      axios.post('/api/meetups', {
+        host: props.user.googleId,
+        routine: props.user.saved_exercises,
+        meetupLocation: '*** uptown beach ***',
+        meetupDate: date.toString(),
+      });
+    }
+  };
+  /// ////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <MeetBox>
-    <Box sx={{display: 'flex', alignItems: 'center'}}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
-      <h1 style={ {color: 'orange', textAlign: 'center'} }>MEETUPS</h1>
+      <h1 style={ { color: 'orange', textAlign: 'center', paddingLeft: '20px' } }>MEETUPS</h1>
 
-      <Box sx={ {transform: 'scale(.15)'} }>
-        <img style={ {float: 'right'} } src="https://imgs.search.brave.com/5GJzzBf2aRFfxylFL8b1IyXYeG9BNzy2PpX9fBh4g0I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kcmFn/b25iYWxsLmd1cnUv/d3AtY29udGVudC91/cGxvYWRzLzIwMjIv/MDIvSHlwZXJib2xp/Yy1UaW1lLUNoYW1i/ZXItQ2FsY3VsYXRv/ci04MjR4NDkwLmpw/Zw"/>
-      </Box>
     </Box>
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
-
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer sx={ {transform: 'scale(.75)'} } components={['DateTimePicker']}>
-          <DateTimePicker sx={ {background: 'grey'} }/>
+        <DemoContainer sx={ { transform: 'scale(.75)' } } components={['DateTimePicker']}>
+          <DateTimePicker
+          value={value}
+          onChange={ (newValue) => setValue(newValue) }
+          sx={ { background: 'grey' } }
+          />
+
+        {console.log('VALUE:', value)}
         </DemoContainer>
       </LocalizationProvider>
-
+      < SubmitButt sx={{
+        backgroundColor: '#5e5e5e',
+        color: '#bbbbbb',
+      }}
+        onClick={handleCreate}
+        >Create Meetup</SubmitButt>
+    </Box>
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
       <TableContainer component={Paper}>
@@ -64,7 +102,7 @@ const Meetups = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-        
+
             <TableRow >
               <TableCell component="th" scope="row">
                 Bayou Bods
@@ -74,7 +112,7 @@ const Meetups = (props) => {
               <TableCell align="right">this stuff</TableCell>
               <TableCell align="right">other stuff</TableCell>
             </TableRow>
-      
+
         </TableBody>
       </Table>
     </TableContainer>
