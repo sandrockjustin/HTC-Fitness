@@ -18,6 +18,12 @@ import Routines from './Routines.jsx';
 import Login from './Login.jsx';
 import Badges from './Badges.jsx';
 
+import Profile from './Profile.jsx';
+import SearchUsers from './Users.jsx';
+
+import Meetups from './Meetups.jsx';
+
+
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
@@ -44,7 +50,8 @@ const App = () => {
   const [exercises, setExercises] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-
+  const [meetups, setMeetups] = useState([])
+  
   const fetchUser = async () => {
     
     try {
@@ -62,9 +69,12 @@ const App = () => {
     // Check if user is authenticated
     const checkAuth = async () => {
       try {
+        
         const response = await axios.get('/api/check-auth');
+        const meetupResponse = await axios.get('/api/meetups');
         setIsAuthenticated(response.data.isAuthenticated);
-
+        
+        setMeetups(meetupResponse.data)
         // Fetch user profile if authenticated
         if (response.data.isAuthenticated) {
           const profileResponse = await axios.get('/me');
@@ -78,10 +88,11 @@ const App = () => {
         throw new Error('Error checking auth', error);
       }
     };
-
     checkAuth();
-
   }, []);
+  
+
+
 
   const fetchRandomExercises = async (endpoint = '/api/exercises') => {
     try {
@@ -132,6 +143,21 @@ const App = () => {
             <Route path="/badges" element={
               <ProtectedRoute>
                 <Badges user={userProfile} fetchUser={fetchUser} />
+              </ProtectedRoute>
+            } />
+            <Route path="/search/users" element={
+              <ProtectedRoute>
+                <SearchUsers user={userProfile}/>
+              </ProtectedRoute>
+            } />     
+            <Route path="/meetups" element={
+              <ProtectedRoute>
+                <Meetups meetups={meetups} setMeetups={setMeetups} user={userProfile}/>
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile user={userProfile}/>
               </ProtectedRoute>
             } />
           </Routes>

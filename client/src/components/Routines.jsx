@@ -15,6 +15,7 @@ import CheckboxIcon from '@mui/icons-material/Checkbox';
 import axios from 'axios';
 
 const Routines = ({ userId }) => {
+  console.log("mlo")
   const [routineData, setRoutineData] = useState([]);
 
   const handleToggle = (id) => {

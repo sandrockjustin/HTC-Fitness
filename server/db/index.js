@@ -35,6 +35,22 @@ const SavedExerciseSchema = new mongoose.Schema({
   reps: { type: Number, default: null },
 });
 
+const friendsSchema = new mongoose.Schema({
+  googleId: { type: String, required: true, unique: true },
+  nameFirst: String,
+  nameLast: String,
+  email: String,
+});
+
+const meetupSchema = new mongoose.Schema({
+  host: String,
+  meetupName: String,
+  meetupDate: String,
+  meetupLocation: String,
+  routine: Array,
+  attendees: Array,
+});
+
 const userSchema = new mongoose.Schema({
   googleId: { type: String, required: true, unique: true },
   nameFirst: String,
@@ -47,11 +63,14 @@ const userSchema = new mongoose.Schema({
   saved_exercises: [SavedExerciseSchema],
   numOfSavedExercises: { type: Number, default: 0 },
   completedExercises: { type: Number, default: 0 },
-
+  friends_list: [friendsSchema],
+  meetups_list: [],
 });
 
+const Meetups = mongoose.model('Meetups', meetupSchema);
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 const User = mongoose.model('User', userSchema);
 const Badge = mongoose.model('Badge', badgeSchema);
 
-module.exports = { Exercise, User, Badge };
+
+module.exports = { Exercise, User, Meetups, Badge };

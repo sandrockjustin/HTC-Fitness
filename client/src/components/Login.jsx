@@ -39,7 +39,7 @@ const Login = () => {
         alignItems: 'center',
       }}>
         <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
-          HTC FITNESS
+          DBZ HTC FITNESS
         </Typography>
         <Box sx={{ mt: 1 }}>
           <Button
