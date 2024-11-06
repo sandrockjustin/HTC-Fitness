@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.13.0",
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
+    "@mui/base": "^5.0.0-beta.61",
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.1",
     "@mui/x-charts": "^7.15.0",

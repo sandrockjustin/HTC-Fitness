@@ -35,6 +35,13 @@ const SavedExerciseSchema = new mongoose.Schema({
   reps: { type: Number, default: null },
 });
 
+const friendsSchema = new mongoose.Schema({
+  googleId: { type: String, required: true, unique: true },
+  nameFirst: String,
+  nameLast: String,
+  email: String
+});
+
 const userSchema = new mongoose.Schema({
   googleId: { type: String, required: true, unique: true },
   nameFirst: String,
@@ -47,7 +54,7 @@ const userSchema = new mongoose.Schema({
   saved_exercises: [SavedExerciseSchema],
   numOfSavedExercises: { type: Number, default: 0 },
   completedExercises: { type: Number, default: 0 },
-
+  friends_list: [friendsSchema],
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);

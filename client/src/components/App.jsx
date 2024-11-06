@@ -18,6 +18,12 @@ import Routines from './Routines.jsx';
 import Login from './Login.jsx';
 import Badges from './Badges.jsx';
 
+import Profile from './Profile.jsx';
+import SearchUsers from './Users.jsx';
+
+import Meetups from './Meetups.jsx';
+
+
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
@@ -132,6 +138,21 @@ const App = () => {
             <Route path="/badges" element={
               <ProtectedRoute>
                 <Badges user={userProfile} fetchUser={fetchUser} />
+              </ProtectedRoute>
+            } />
+            <Route path="/search/users" element={
+              <ProtectedRoute>
+                <SearchUsers user={userProfile}/>
+              </ProtectedRoute>
+            } />     
+            <Route path="/meetups" element={
+              <ProtectedRoute>
+                <Meetups user={userProfile}/>
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile user={userProfile}/>
               </ProtectedRoute>
             } />
           </Routes>
