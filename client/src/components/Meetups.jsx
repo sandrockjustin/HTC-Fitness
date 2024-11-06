@@ -10,7 +10,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { styled } from '@mui/material/styles';
 
-import { Input } from '@mui/base/Input';
+import TextField from '@mui/material/TextField';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -37,25 +37,36 @@ color: #bbbbbb;
 
 const Meetups = (props) => {
   console.log('MEETUP PROPS', props);
-  // const [meetupName, setMeetupName] = useState("");
 
   const [value, setValue] = React.useState(null);
+  const [meetupName, setMeetupName] = React.useState('');
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleCreate = () => {
-    if (value !== null) {
+    if (value !== null && meetupName.length) {
       console.log(value.$d);
       const date = value.$d;
       console.log(date.toString());
 
       axios.post('/api/meetups', {
         host: props.user.googleId,
+        meetupName,
         routine: props.user.saved_exercises,
         meetupLocation: '*** uptown beach ***',
         meetupDate: date.toString(),
       });
+      const updateMeetupResponse = async () => {
+        const meetupResponse = await axios.get('/api/meetups');
+        props.setMeetups(meetupResponse.data);
+      };
+      updateMeetupResponse();
     }
+  };
+
+  const handleNameMeetup = (e) => {
+    setMeetupName(meetupName + e.nativeEvent.data);
+    console.log('MEETUPNAME', meetupName);
   };
   /// ////////////////////////////////////////////////////////////////////////////////////////////////
   return (
@@ -70,6 +81,9 @@ const Meetups = (props) => {
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+      <TextField label="Meetup Name" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameMeetup(e)}></TextField>
+
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer sx={ { transform: 'scale(.75)' } } components={['DateTimePicker']}>
           <DateTimePicker
@@ -95,23 +109,22 @@ const Meetups = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>Meetup Name</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Time</TableCell>
+            <TableCell align="right">Date/Time</TableCell>
             <TableCell align="right">Location</TableCell>
             <TableCell align="right">Routine</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-
-            <TableRow >
+          {props.meetups.map((meetup) => (
+            <TableRow key={meetup.meetupName + meetup.meetupDate}>
               <TableCell component="th" scope="row">
-                Bayou Bods
+                {meetup.meetupName}
               </TableCell>
-              <TableCell align="right">some stuff</TableCell>
-              <TableCell align="right">more stuff</TableCell>
-              <TableCell align="right">this stuff</TableCell>
-              <TableCell align="right">other stuff</TableCell>
+              <TableCell align="right">{meetup.meetupDate}</TableCell>
+              <TableCell align="right">{meetup.meetupLocation}</TableCell>
+              <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
             </TableRow>
+          ))}
 
         </TableBody>
       </Table>
