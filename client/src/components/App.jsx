@@ -50,7 +50,8 @@ const App = () => {
   const [exercises, setExercises] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-
+  const [meetups, setMeetups] = useState([])
+  
   const fetchUser = async () => {
     
     try {
@@ -68,9 +69,12 @@ const App = () => {
     // Check if user is authenticated
     const checkAuth = async () => {
       try {
+        
         const response = await axios.get('/api/check-auth');
+        const meetupResponse = await axios.get('/api/meetups');
         setIsAuthenticated(response.data.isAuthenticated);
-
+        
+        setMeetups(meetupResponse.data)
         // Fetch user profile if authenticated
         if (response.data.isAuthenticated) {
           const profileResponse = await axios.get('/me');
@@ -84,10 +88,11 @@ const App = () => {
         throw new Error('Error checking auth', error);
       }
     };
-
     checkAuth();
-
   }, []);
+  
+
+
 
   const fetchRandomExercises = async (endpoint = '/api/exercises') => {
     try {
@@ -147,7 +152,7 @@ const App = () => {
             } />     
             <Route path="/meetups" element={
               <ProtectedRoute>
-                <Meetups user={userProfile}/>
+                <Meetups meetups={meetups} setMeetups={setMeetups} user={userProfile}/>
               </ProtectedRoute>
             } />
             <Route path="/profile" element={
