@@ -74,15 +74,7 @@ const App = () => {
   }, []);
   
 
-  const getMeetups = async()=>{
-    try {
-      console.log("RESPONSE", )
-      setMeetups(response.data)
 
-    } catch (err) {
-      console.error('could not get meetups', err)
-    }
-  }
 
   const fetchRandomExercises = async (endpoint = '/api/exercises') => {
     try {
