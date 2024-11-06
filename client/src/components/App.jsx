@@ -16,6 +16,7 @@ import HomePage from './HomePage.jsx';
 import Goals from './Goals.jsx';
 import Routines from './Routines.jsx';
 import Login from './Login.jsx';
+import Badges from './Badges.jsx';
 
 import Profile from './Profile.jsx';
 import SearchUsers from './Users.jsx';
@@ -50,6 +51,19 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
+  const fetchUser = async () => {
+    
+    try {
+      await axios.get('/api/badges/badgeCheck');
+
+      const userData = await axios.get('/me');
+
+      setUserProfile(userData.data)
+    } catch (error) {
+        console.error('Error fetching user data');
+    }
+  };
+
   useEffect(() => {
     // Check if user is authenticated
     const checkAuth = async () => {
@@ -60,7 +74,8 @@ const App = () => {
         // Fetch user profile if authenticated
         if (response.data.isAuthenticated) {
           const profileResponse = await axios.get('/me');
-          setUserProfile(profileResponse.data);
+          fetchUser(profileResponse.data);
+
         } else {
           setUserProfile(null);
         }
@@ -71,6 +86,7 @@ const App = () => {
     };
 
     checkAuth();
+
   }, []);
 
   const fetchRandomExercises = async (endpoint = '/api/exercises') => {
@@ -119,16 +135,26 @@ const App = () => {
                 <Goals user={userProfile}/>
               </ProtectedRoute>
             } />
-            <Route path="/meetups" element={
+            <Route path="/badges" element={
               <ProtectedRoute>
-                <Meetups user={userProfile}/>
+                <Badges user={userProfile} fetchUser={fetchUser} />
               </ProtectedRoute>
             } />
             <Route path="/search/users" element={
               <ProtectedRoute>
                 <SearchUsers user={userProfile}/>
               </ProtectedRoute>
-            } />            
+            } />     
+            <Route path="/meetups" element={
+              <ProtectedRoute>
+                <Meetups user={userProfile}/>
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile user={userProfile}/>
+              </ProtectedRoute>
+            } />
           </Routes>
         </Router>
       </ThemeProvider>
