@@ -48,13 +48,6 @@ const Profile = (props) => {
               </tr>
             </tbody>
           </table>
-          <form>
-            <label>
-              Search users:
-              <input type="text" name="name" />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
           { props.user.friends_list && props.user.friends_list.length > 0 ?
             <div style={{paddingTop: "35px"}}>
               <table>
