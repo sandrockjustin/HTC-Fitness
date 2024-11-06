@@ -21,25 +21,19 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
-  User.find({googleId: req.user.googleId})
+  User.findOneAndUpdate({googleId: req.user.googleId}, {$push: {friends_list: req.body.friend}})
     .then((foundUser) => {
       if (!foundUser){
         res.sendStatus(404);
         return;
       }
 
-      foundUser.friends_list.push(req.body.friend);
-      return foundUser.save()
-    })
-    .then((updatedUser) => {
-      res.status(201).send(updatedUser)
+      res.sendStatus(201);
     })
     .catch((error) => {
       console.error(`Error on POST request to /api/friends.`)
       res.sendStatus(500);
     })
-
 })
 
 router.delete('/:id', (req, res) => {

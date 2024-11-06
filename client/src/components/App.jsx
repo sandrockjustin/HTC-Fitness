@@ -16,7 +16,12 @@ import HomePage from './HomePage.jsx';
 import Goals from './Goals.jsx';
 import Routines from './Routines.jsx';
 import Login from './Login.jsx';
+
+import Profile from './Profile.jsx';
+import SearchUsers from './Users.jsx';
+
 import Meetups from './Meetups.jsx';
+
 
 const lightTheme = createTheme({
   palette: {
@@ -119,6 +124,11 @@ const App = () => {
                 <Meetups user={userProfile}/>
               </ProtectedRoute>
             } />
+            <Route path="/search/users" element={
+              <ProtectedRoute>
+                <SearchUsers user={userProfile}/>
+              </ProtectedRoute>
+            } />            
           </Routes>
         </Router>
       </ThemeProvider>
