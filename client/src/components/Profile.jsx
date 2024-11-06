@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+
 
 const Profile = (props) => {
 
@@ -49,33 +59,42 @@ const Profile = (props) => {
             </tbody>
           </table>
           { props.user.friends_list && props.user.friends_list.length > 0 ?
-            <div style={{paddingTop: "35px"}}>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Friend Name</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    props.user.friends_list.map( (friend) => {
-                      return (
-                        <tr key={friend.googleId}>
-                          <td>{friend.nameFirst} {friend.nameLast}</td>
-                          <td>{friend.email}</td>
-                          <td><button type='button' onClick={() => removeFriend(friend.googleId)}>Remove Friend</button></td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-            </div>
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+              { 
+                props.user.friends_list.map((friend) => (
+                  <ListItem alignItems="flex-start" key={friend.googleId}>
+                    <ListItemAvatar>
+                      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${friend.nameFirst} ${friend.nameLast}`}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: 'text.primary', display: 'inline'}}
+                            >
+                            {`${friend.email}`}
+                            <br></br>
+                          </Typography>
+                          {
+                            `
+                            Goal weight: ${friend.goal_weight ? friend.goal_weight : 'N/A'} | Exercises: ${friend.saved_exercises ? friend.saved_exercises.length : 0} | Friends: ${friend.friends_list ? friend.friends_list.length : 0}
+                            `
+                          }
+                        </React.Fragment>
+                      }
+                      />
+                    <ListItemButton><PersonRemoveIcon onClick={() => removeFriend(friend.googleId)}/></ListItemButton>
+                  </ListItem>
+                ))
+              }
+            </List>
             :
             <div>
-              You have {props.user.friends_list.length} friends; consider adding friends to your friends list.
-            </div>
+              You have not added any friends.
+            </div> 
           }
         </div>
         :
@@ -89,3 +108,31 @@ const Profile = (props) => {
 }
 
 export default Profile;
+
+  // return (
+  //   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+  //     <ListItem alignItems="flex-start">
+  //       <ListItemAvatar>
+  //         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+  //       </ListItemAvatar>
+  //       <ListItemText
+  //         primary={`${friend.nameFirst} ${friend.nameLast}`}
+  //         secondary={
+  //           <React.Fragment>
+  //             <Typography
+  //               component="span"
+  //               variant="body2"
+  //               sx={{ color: 'text.primary', display: 'inline' }}
+  //             >
+  //               {friend.email}
+  //             </Typography>
+  //             {`Goal weight: ${friend.goal_weight} | Exercises: ${friend.saved_exercises.length} | Friends: ${friend.friends_list}`}
+  //           </React.Fragment>
+  //         }
+  //       />
+  //     </ListItem>
+  //     <Divider variant="inset" component="li" />
+  //   </List>
+  // );
+
+  // { props.user.friends_list && props.user.friends_list.length > 0 ?
