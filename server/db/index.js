@@ -40,6 +40,9 @@ const friendsSchema = new mongoose.Schema({
   nameFirst: String,
   nameLast: String,
   email: String,
+  goal_weight: Number,
+  num_exercises: Number,
+  num_friends: Number
 });
 
 const meetupSchema = new mongoose.Schema({
@@ -64,7 +67,7 @@ const userSchema = new mongoose.Schema({
   numOfSavedExercises: { type: Number, default: 0 },
   completedExercises: { type: Number, default: 0 },
   friends_list: [friendsSchema],
-  meetups_list: [],
+  meetups_list: Array,
 });
 
 const Meetups = mongoose.model('Meetups', meetupSchema);
