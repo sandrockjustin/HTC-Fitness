@@ -16,14 +16,6 @@ import { styled } from '@mui/material/styles';
 
 import TextField from '@mui/material/TextField';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
 import Button from '@mui/material/Button';
 
 //delete icon for meetup entries
@@ -44,15 +36,16 @@ color: #bbbbbb;
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
-  // console.log('MEETUP PROPS', props);
+  console.log('MEETUP PROPS', props);
 
   const [value, setValue] = useState(null);
   const [meetupName, setMeetupName] = useState('');
   const [location, setLocation] = useState('');
+  const [attendees, setAttendees] = useState([])
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
-  console.log("PROPS", props)
+  // console.log("PROPS", props)
 
   const handleCreate = () => {
     if (value !== null && meetupName.length) {
@@ -126,7 +119,15 @@ const Meetups = (props) => {
     </Box>
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-      <MeetupTable meetups={props.meetups} setMeetups={props.setMeetups} user={props.userProfile}/>
+      <MeetupTable
+      meetups={props.meetups}
+      setMeetups={props.setMeetups}
+      user={props.user}
+      attendees={attendees}
+      setAttendees={setAttendees}
+      />
+      <br></br>
+      <Box sx={{height: ''}}></Box>
 
     </MeetBox>
   );
