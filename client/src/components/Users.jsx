@@ -8,7 +8,6 @@ const SearchUsers = (props) => {
   useEffect(() => {
     axios.get('/api/users')
       .then((response) => {
-        console.log(response.data);
         setUsers(response.data);
       })
       .catch((error) => {
@@ -22,14 +21,26 @@ const SearchUsers = (props) => {
       googleId: friend.googleId,
       nameFirst: friend.nameFirst,
       nameLast: friend.nameLast,
-      email: friend.email
+      email: friend.email,
+      goal_weight: friend.goal_weight,
+      num_exercises: friend.saved_exercises.length,
+      num_friends: friend.friends_list.length
     }
 
-    console.log(newFriend);
+    console.log(`Adding new friend: `, newFriend)
+
+    const existingFriends = props.user.friends_list.map((friend) => {
+      return friend.googleId;
+    })
+
+    if (existingFriends.includes(friend.googleId)){
+      console.error(`Refused Request :: User #${friend.googleId} is already a friend of user #${props.user.googleId}.`)
+      return;
+    }
 
     axios.post(`/api/friends`, {friend: newFriend})
       .then((response) => {
-        console.log(response);
+        props.fetchUser();
       })
       .catch((error) => {
         console.error(`Error on request searching users, adding new friend.`)
