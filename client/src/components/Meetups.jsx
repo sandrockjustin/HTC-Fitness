@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// map component
+import { APIProvider, Map } from '@vis.gl/react-google-maps';
+
 // mui components
 import { Box } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -33,13 +36,15 @@ background-color: #5e5e5e;
 color: #bbbbbb;
 `;
 
+
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
   console.log('MEETUP PROPS', props);
 
-  const [value, setValue] = React.useState(null);
-  const [meetupName, setMeetupName] = React.useState('');
+  const [value, setValue] = useState(null);
+  const [meetupName, setMeetupName] = useState('');
+  const [location, setLocation] = useState('');
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +58,7 @@ const Meetups = (props) => {
         host: props.user.googleId,
         meetupName,
         routine: props.user.saved_exercises,
-        meetupLocation: '*** uptown beach ***',
+        meetupLocation: location,
         meetupDate: date.toString(),
       });
       const updateMeetupResponse = async () => {
@@ -64,9 +69,13 @@ const Meetups = (props) => {
     }
   };
 
-  const handleNameMeetup = (e) => {
-    setMeetupName(meetupName + e.nativeEvent.data);
+  const handleNameChange = (e) => {
+    setMeetupName(e.target.value);
     console.log('MEETUPNAME', meetupName);
+  };
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+    console.log('LOCATION', location);
   };
   /// ////////////////////////////////////////////////////////////////////////////////////////////////
   return (
@@ -82,7 +91,9 @@ const Meetups = (props) => {
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
-      <TextField label="Meetup Name" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameMeetup(e)}></TextField>
+      <TextField value={meetupName} label="Meetup Name" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameChange(e)}></TextField>
+
+      <TextField value={location} label="Location" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleLocationChange(e)}></TextField>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer sx={ { transform: 'scale(.75)' } } components={['DateTimePicker']}>
