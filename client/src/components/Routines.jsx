@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckboxIcon from '@mui/icons-material/Checkbox';
+import CheckboxIcon from '@mui/icons-material/CheckBox';
 import axios from 'axios';
 
 const Routines = ({ userId }) => {
