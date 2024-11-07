@@ -29,9 +29,9 @@ const Profile = (props) => {
   }
 
   return (
-    <div id="profilePage">
+    <div id="profilePage" style={{width: 544, padding: "32px"}}>
       { props.user ?
-        <div id="profileInfo-container" style={{padding: "32px"}}>
+        <div id="profileInfo-container">
           <div id="basicInfo" style={{maxWidth: 480}}>
             <span style={{paddingBottom: "8px"}}>Your Account</span>
             <BasicProfileInfo user={props.user}/>
