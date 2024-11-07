@@ -1,6 +1,10 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import MeetupTable from './MeetupsTable.jsx';
+
+// map component
+import { APIProvider, Map } from '@vis.gl/react-google-maps';
 
 // mui components
 import { Box } from '@mui/material';
@@ -12,15 +16,10 @@ import { styled } from '@mui/material/styles';
 
 import TextField from '@mui/material/TextField';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
 import Button from '@mui/material/Button';
+
+//delete icon for meetup entries
+import ClearIcon from '@mui/icons-material/Clear';
 
 const MeetBox = styled(Box)`
 background-image: url("https://i.imgur.com/UHtnNpg.png");
@@ -33,26 +32,32 @@ background-color: #5e5e5e;
 color: #bbbbbb;
 `;
 
+
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
 
-  const [value, setValue] = React.useState(null);
-  const [meetupName, setMeetupName] = React.useState('');
+  const [value, setValue] = useState(null);
+  const [meetupName, setMeetupName] = useState('');
+  const [location, setLocation] = useState('');
+  const [attendees, setAttendees] = useState([])
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
+
+  // console.log("PROPS", props)
 
   const handleCreate = () => {
 
     if (value !== null && meetupName.length) {
-      const date = value.$d;
+      let date = value.$d;
+      date = date.toString().split(":").slice(0,2).join(":")
 
       axios.post('/api/meetups', {
         host: props.user.googleId,
         meetupName,
         routine: props.user.saved_exercises,
-        meetupLocation: '*** uptown beach ***',
-        meetupDate: date.toString(),
+        meetupLocation: location,
+        meetupDate: date,
       });
       const updateMeetupResponse = async () => {
         const meetupResponse = await axios.get('/api/meetups');
@@ -61,12 +66,19 @@ const Meetups = (props) => {
       updateMeetupResponse();
     }
   };
-
-  const handleNameMeetup = (e) => {
-    setMeetupName(meetupName + e.nativeEvent.data);
-    console.log('MEETUPNAME', meetupName);
+//////////////////////////////////////////////////////
+  const handleNameChange = (e) => {
+    setMeetupName(e.target.value);
+    // console.log('MEETUPNAME', meetupName);
   };
-  /// ////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+    // console.log('LOCATION', location);
+  };
+  /////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////
   return (
     <MeetBox>
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -78,9 +90,11 @@ const Meetups = (props) => {
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', padding: '15px' }}>
 
-      <TextField label="Meetup Name" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameMeetup(e)}></TextField>
+      <TextField value={meetupName} label="Meetup Name" sx={ { backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameChange(e)}></TextField>
+      <div style={{padding: '15px'}}></div>
+      <TextField value={location} label="Location" sx={ { backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleLocationChange(e)}></TextField>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer sx={ { transform: 'scale(.75)' } } components={['DateTimePicker']}>
@@ -96,37 +110,22 @@ const Meetups = (props) => {
       < SubmitButt sx={{
         backgroundColor: '#5e5e5e',
         color: '#bbbbbb',
+        "&:hover": { color: 'rgba(0, 0, 0, 0.4)'}
       }}
         onClick={handleCreate}
         >Create Meetup</SubmitButt>
     </Box>
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Meetup Name</TableCell>
-            <TableCell align="right">Date/Time</TableCell>
-            <TableCell align="right">Location</TableCell>
-            <TableCell align="right">Routine</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.meetups.map((meetup) => (
-            <TableRow key={meetup.meetupName + meetup.meetupDate}>
-              <TableCell component="th" scope="row">
-                {meetup.meetupName}
-              </TableCell>
-              <TableCell align="right">{meetup.meetupDate}</TableCell>
-              <TableCell align="right">{meetup.meetupLocation}</TableCell>
-              <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
-            </TableRow>
-          ))}
-
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <MeetupTable
+      meetups={props.meetups}
+      setMeetups={props.setMeetups}
+      user={props.user}
+      attendees={attendees}
+      setAttendees={setAttendees}
+      />
+      <br></br>
+      <Box sx={{height: ''}}></Box>
 
     </MeetBox>
   );

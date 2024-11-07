@@ -2,7 +2,7 @@ const express = require('express');
 const { User, Meetups } = require('../db/index');
 
 const router = express.Router();
-
+/// //////////////////////////////////////////////////////////
 router.get('/', async (req, res) => {
   try {
     const meetups = await Meetups.find({});
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     res.sendStatus(500);
   }
 });
-
+/// ///////////////////////////////////////////////////////////
 router.post('/', async (req, res) => {
   const meetup = req.body;
 
@@ -25,10 +25,20 @@ router.post('/', async (req, res) => {
   Meetups.find({})
     .then((data) => data)
     .catch((err) => console.error(err));
+});
+/// ///////////////////////////////////////////////////////////
+router.put('/delete', async (req, res) => {
+  console.log('REQUEST body and params:', req.body);
 
-  // Meetups.find({})
-  //   .then((data) => console.log('MEETUPS?', data, "RESULT", res))
-  //   .catch((err) => console.error(err));
+  Meetups.findByIdAndDelete(req.body)
+    .then((data) => {
+      if (!data) { res.sendStatus(404); }
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
