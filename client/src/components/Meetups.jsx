@@ -36,7 +36,6 @@ color: #bbbbbb;
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
-  console.log('MEETUP PROPS', props);
 
   const [value, setValue] = useState(null);
   const [meetupName, setMeetupName] = useState('');
@@ -48,10 +47,9 @@ const Meetups = (props) => {
   // console.log("PROPS", props)
 
   const handleCreate = () => {
+
     if (value !== null && meetupName.length) {
-      console.log(value.$d);
       let date = value.$d;
-      console.log(date.toString());
       date = date.toString().split(":").slice(0,2).join(":")
 
       axios.post('/api/meetups', {

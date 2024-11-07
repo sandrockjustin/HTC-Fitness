@@ -44,7 +44,7 @@ router.get('/badgeCheck', async (req, res) => {
         name: 'New User',
         description: 'User account is created',
         earnedAt: new Date(),
-        icon: 'mdiFaceManShimmer',
+        icon: 'SlFire',
       });
     }
     // check if user has a fitness master badge
@@ -53,15 +53,15 @@ router.get('/badgeCheck', async (req, res) => {
         name: 'Fitness Master',
         description: 'User has completed 10 exercises',
         earnedAt: new Date(),
-        icon: 'mdiWeightLifter',
+        icon: 'GiFireDash',
       });
     }
     if (completedExercises >= 20 && !badgeNames.includes('Fitness God')) {
       await addBadge(user, {
-        name: 'Fitness Master',
+        name: 'Fitness God',
         description: 'User has completed 10 exercises',
         earnedAt: new Date(),
-        icon: 'mdiWeightLifter',
+        icon: 'GiFireSilhouette',
       });
     }
     // check if user has an exercise saver badge
@@ -70,7 +70,7 @@ router.get('/badgeCheck', async (req, res) => {
         name: 'Exercise Saver',
         description: 'User has saved 10 exercises',
         earnedAt: new Date(),
-        icon: 'mdiPacMan',
+        icon: 'GiFireFlower',
       });
     }
     res.sendStatus(200);
@@ -79,25 +79,24 @@ router.get('/badgeCheck', async (req, res) => {
   }
 });
 
-module.exports = router;
+router.patch('/displayBadge/:id', async (req, res) => {
+  const newBadge = req.params.id;
+  console.log('newbadge', newBadge);
+  try {
+    const user = await User.find({ googleId: req.user.googleId });
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      const updatedUser = await User.findOneAndUpdate(
+        { googleId: req.user.googleId },
+        { displayBadge: newBadge },
+        { new: true },
+      );
+      res.status(201).json(updatedUser);
+    }
+  } catch (err) {
+    res.sendStatus(500);
+  }
+});
 
-// User.find({ googleId: req.user.googleId })
-//     .then((foundUser) => {
-//       if (!foundUser) {
-//         res.sendStatus(404);
-//       } else {
-//         User.findOneAndUpdate(
-//           { googleId: req.user.googleId },
-//           { $push: { badges: badge } },
-//           { new: true },
-//         )
-//           .then((updatedUser) => {
-//             console.log('updatedUser', updatedUser);
-//             res.status(200).send(updatedUser);
-//           })
-//           .catch((err) => {
-//             console.error(err);
-//             res.sendStatus(500);
-//           });
-//       }
-//     })
+module.exports = router;

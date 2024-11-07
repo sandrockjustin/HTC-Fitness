@@ -17,7 +17,6 @@ import Goals from './Goals.jsx';
 import Routines from './Routines.jsx';
 import Login from './Login.jsx';
 import Badges from './Badges.jsx';
-
 import Profile from './Profile/Profile.jsx';
 import SearchUsers from './Users.jsx';
 import Meetups from './Meetups.jsx';
@@ -50,9 +49,9 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const [meetups, setMeetups] = useState([])
-  
+
   const fetchUser = async () => {
-    
+
     try {
       await axios.get('/api/badges/badgeCheck');
 
@@ -131,7 +130,7 @@ const App = () => {
             } />
             <Route path="/routines" element={
               <ProtectedRoute>
-                <Routines savedExercises={userProfile?.saved_exercises || []} userId={userProfile?._id} />
+                <Routines savedExercises={userProfile?.saved_exercises || []} userId={userProfile?._id} user={userProfile} fetchUser={fetchUser} />
               </ProtectedRoute>
             } />
             <Route path="/goals" element={
@@ -148,7 +147,7 @@ const App = () => {
               <ProtectedRoute>
                 <SearchUsers user={userProfile} fetchUser={fetchUser}/>
               </ProtectedRoute>
-            } />     
+            } />
             <Route path="/meetups" element={
               <ProtectedRoute>
                 <Meetups meetups={meetups} setMeetups={setMeetups} user={userProfile}/>

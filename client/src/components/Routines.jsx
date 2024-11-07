@@ -14,10 +14,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckboxIcon from '@mui/icons-material/CheckBox';
 import axios from 'axios';
 
-const Routines = ({ userId }) => {
-  console.log("mlo")
+const Routines = ({ userId, user, fetchUser }) => {
   const [routineData, setRoutineData] = useState([]);
-
   const handleToggle = (id) => {
     // Update the completedStatus in routineData directly
     setRoutineData((prevState) => prevState.map((exercise) => (exercise._id === id
@@ -56,6 +54,7 @@ const Routines = ({ userId }) => {
       });
       alert('Routine updated successfully!');
       fetchSavedExercises();
+      fetchUser();
     } catch (error) {
       console.error('Error updating routine:', error);
       alert('Failed to update routine.');
