@@ -18,9 +18,8 @@ import Routines from './Routines.jsx';
 import Login from './Login.jsx';
 import Badges from './Badges.jsx';
 
-import Profile from './Profile.jsx';
+import Profile from './Profile/Profile.jsx';
 import SearchUsers from './Users.jsx';
-
 import Meetups from './Meetups.jsx';
 
 
@@ -147,7 +146,7 @@ const App = () => {
             } />
             <Route path="/search/users" element={
               <ProtectedRoute>
-                <SearchUsers user={userProfile}/>
+                <SearchUsers user={userProfile} fetchUser={fetchUser}/>
               </ProtectedRoute>
             } />     
             <Route path="/meetups" element={
@@ -157,7 +156,7 @@ const App = () => {
             } />
             <Route path="/profile" element={
               <ProtectedRoute>
-                <Profile user={userProfile}/>
+                <Profile user={userProfile} fetchUser={fetchUser}/>
               </ProtectedRoute>
             } />
           </Routes>
