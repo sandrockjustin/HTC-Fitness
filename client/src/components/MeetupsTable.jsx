@@ -35,6 +35,8 @@ const MeetupTable = (props) => {
           <TableCell align="right">Date/Time</TableCell>
           <TableCell align="right">Location</TableCell>
           <TableCell align="right">Routine</TableCell>
+          <TableCell align="right">Attendees</TableCell>
+          <TableCell align="right"></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -47,6 +49,7 @@ const MeetupTable = (props) => {
             <TableCell align="right">{meetup.meetupDate}</TableCell>
             <TableCell align="right">{meetup.meetupLocation}</TableCell>
             <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
+            <TableCell align="right">Attendees</TableCell>
             <TableCell align="right">
               <ClearIcon sx={{ paddingTop: '10px', '&:hover': { color: 'rgba(200, 75, 75, .8)' } }} onClick={() => handleDelete(i)}/>
             </TableCell>

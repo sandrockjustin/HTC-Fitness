@@ -52,18 +52,21 @@ const Meetups = (props) => {
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
+  console.log("PROPS", props)
+
   const handleCreate = () => {
     if (value !== null && meetupName.length) {
       console.log(value.$d);
-      const date = value.$d;
+      let date = value.$d;
       console.log(date.toString());
+      date = date.toString().split(":").slice(0,2).join(":")
 
       axios.post('/api/meetups', {
         host: props.user.googleId,
         meetupName,
         routine: props.user.saved_exercises,
         meetupLocation: location,
-        meetupDate: date.toString(),
+        meetupDate: date,
       });
       const updateMeetupResponse = async () => {
         const meetupResponse = await axios.get('/api/meetups');
@@ -96,11 +99,11 @@ const Meetups = (props) => {
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', padding: '15px' }}>
 
-      <TextField value={meetupName} label="Meetup Name" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameChange(e)}></TextField>
-
-      <TextField value={location} label="Location" sx={ { padding: '15px', backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleLocationChange(e)}></TextField>
+      <TextField value={meetupName} label="Meetup Name" sx={ { backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleNameChange(e)}></TextField>
+      <div style={{padding: '15px'}}></div>
+      <TextField value={location} label="Location" sx={ { backgroundColor: 'grey' } } variant="filled" onChange={(e) => handleLocationChange(e)}></TextField>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer sx={ { transform: 'scale(.75)' } } components={['DateTimePicker']}>
