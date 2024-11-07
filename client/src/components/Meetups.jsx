@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import MeetupTable from './MeetupsTable.jsx';
 
 // map component
 import { APIProvider, Map } from '@vis.gl/react-google-maps';
@@ -25,6 +26,9 @@ import Paper from '@mui/material/Paper';
 
 import Button from '@mui/material/Button';
 
+//delete icon for meetup entries
+import ClearIcon from '@mui/icons-material/Clear';
+
 const MeetBox = styled(Box)`
 background-image: url("https://i.imgur.com/UHtnNpg.png");
 background-size: cover;
@@ -40,7 +44,7 @@ color: #bbbbbb;
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
-  console.log('MEETUP PROPS', props);
+  // console.log('MEETUP PROPS', props);
 
   const [value, setValue] = useState(null);
   const [meetupName, setMeetupName] = useState('');
@@ -68,16 +72,19 @@ const Meetups = (props) => {
       updateMeetupResponse();
     }
   };
-
+//////////////////////////////////////////////////////
   const handleNameChange = (e) => {
     setMeetupName(e.target.value);
-    console.log('MEETUPNAME', meetupName);
+    // console.log('MEETUPNAME', meetupName);
   };
+  ////////////////////////////////////////////////////
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
-    console.log('LOCATION', location);
+    // console.log('LOCATION', location);
   };
-  /// ////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////
   return (
     <MeetBox>
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -109,37 +116,14 @@ const Meetups = (props) => {
       < SubmitButt sx={{
         backgroundColor: '#5e5e5e',
         color: '#bbbbbb',
+        "&:hover": { color: 'rgba(0, 0, 0, 0.4)'}
       }}
         onClick={handleCreate}
         >Create Meetup</SubmitButt>
     </Box>
 {/* ///////////////////////////////////////////////////////////////////////////////////////////// */}
 
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Meetup Name</TableCell>
-            <TableCell align="right">Date/Time</TableCell>
-            <TableCell align="right">Location</TableCell>
-            <TableCell align="right">Routine</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.meetups.map((meetup) => (
-            <TableRow key={meetup.meetupName + meetup.meetupDate}>
-              <TableCell component="th" scope="row">
-                {meetup.meetupName}
-              </TableCell>
-              <TableCell align="right">{meetup.meetupDate}</TableCell>
-              <TableCell align="right">{meetup.meetupLocation}</TableCell>
-              <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
-            </TableRow>
-          ))}
-
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <MeetupTable meetups={props.meetups} setMeetups={props.setMeetups} user={props.userProfile}/>
 
     </MeetBox>
   );
