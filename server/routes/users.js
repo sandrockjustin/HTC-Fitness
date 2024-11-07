@@ -39,13 +39,18 @@ router.patch('/:userId/saved-exercises', async (req, res) => {
   try {
     const { userId } = req.params;
     const { exercises } = req.body;
+    console.log('exercises saved', req.body)
 
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
+    const numCompletedExercises = exercises.filter(
+      (exercise) => exercise.completedStatus === true,
+    ).length;
+    console.log('numCompleted', numCompletedExercises);
+    user.completedExercises += numCompletedExercises;
     user.saved_exercises = exercises;
     user.numOfSavedExercises = exercises.length;
     await user.save();

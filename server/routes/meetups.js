@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const meetups = await Meetups.find({});
-    console.log('MEETUPS?', meetups);
+    // console.log('MEETUPS?', meetups);
     res.status(200)
       .send(meetups);
   } catch (err) {

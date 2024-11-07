@@ -36,7 +36,7 @@ color: #bbbbbb;
 /// ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const Meetups = (props) => {
-  console.log('MEETUP PROPS', props);
+  // console.log('MEETUP PROPS', props);
   // const [meetupName, setMeetupName] = useState("");
 
   const [value, setValue] = React.useState(null);
@@ -45,9 +45,9 @@ const Meetups = (props) => {
 
   const handleCreate = () => {
     if (value !== null) {
-      console.log(value.$d);
+      // console.log(value.$d);
       const date = value.$d;
-      console.log(date.toString());
+      // console.log(date.toString());
 
       axios.post('/api/meetups', {
         host: props.user.googleId,
