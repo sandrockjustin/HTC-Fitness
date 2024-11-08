@@ -19,7 +19,7 @@ import Login from './Login.jsx';
 import Badges from './Badges.jsx';
 import Profile from './Profile/Profile.jsx';
 import SearchUsers from './Users.jsx';
-import Meetups from './Meetups.jsx';
+import Meetups from './Meetups/Meetups.jsx';
 
 
 const lightTheme = createTheme({

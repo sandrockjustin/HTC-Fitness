@@ -14,7 +14,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 const MeetupTable = (props) => {
 /// ////////////////////////////////////////////////////////////////
-console.log('Table PROPS', props);
+  // console.log('Table PROPS', props);
   const handleDelete = (e) => {
     console.log('target meetup', props.meetups[e]);
 
@@ -25,6 +25,8 @@ console.log('Table PROPS', props);
       });
     props.setMeetups(props.meetups.filter((meetup) => meetup._id !== props.meetups[e]._id));
   };
+  
+
   /// ////////////////////////////////////////////////////////////
   return (
     <TableContainer component={Paper}>
@@ -32,11 +34,11 @@ console.log('Table PROPS', props);
       <TableHead>
         <TableRow>
           <TableCell>Meetup Name</TableCell>
-          <TableCell align="right">Date/Time</TableCell>
-          <TableCell align="right">Location</TableCell>
-          <TableCell align="right">Routine</TableCell>
-          <TableCell align="right">Host</TableCell>
-          <TableCell align="right">Attendees</TableCell>
+          <TableCell align="right"><h3>Date/Time</h3></TableCell>
+          <TableCell align="right"><h3>Location</h3></TableCell>
+          <TableCell align="right"><h3>Routine</h3></TableCell>
+          <TableCell align="right"><h3>Host</h3></TableCell>
+          <TableCell align="right"><h3>Attendees</h3></TableCell>
           <TableCell align="right"></TableCell>
         </TableRow>
       </TableHead>
@@ -51,9 +53,18 @@ console.log('Table PROPS', props);
             <TableCell align="right">{meetup.meetupLocation}</TableCell>
             <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
 
-            <TableCell align="right">{`${props.user.friends_list[0].nameFirst} ${props.user.friends_list[i].nameLast}`}</TableCell>
+            <TableCell align="right">{`${props.user.nameFirst} ${props.user.nameLast}`}</TableCell>
 
-            <TableCell align="right">{`${props.user.friends_list[0].nameFirst} ${props.user.friends_list[i].nameLast}`}</TableCell>
+            <TableCell align="right">
+
+              {
+              props.user.friends_list.map((friend) => {
+                <p>{`${friend.nameFirst} ${friend.nameLast}`}</p>;
+              })
+
+              }
+
+            </TableCell>
 
             <TableCell align="right">
               <ClearIcon sx={{ paddingTop: '10px', '&:hover': { color: 'rgba(200, 75, 75, .8)' } }} onClick={() => handleDelete(i)}/>
