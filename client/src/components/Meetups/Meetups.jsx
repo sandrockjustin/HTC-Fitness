@@ -40,7 +40,6 @@ const Meetups = (props) => {
   const [meetupName, setMeetupName] = useState('');
   const [location, setLocation] = useState('');
   const [attendees, setAttendees] = useState([]);
- 
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,10 +58,12 @@ const Meetups = (props) => {
         meetupDate: date,
         attendees,
       });
+
       const updateMeetupResponse = async () => {
         const meetupResponse = await axios.get('/api/meetups');
         props.setMeetups(meetupResponse.data);
       };
+
       updateMeetupResponse();
     }
   };

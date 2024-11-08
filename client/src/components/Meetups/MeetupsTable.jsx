@@ -12,20 +12,19 @@ import Paper from '@mui/material/Paper';
 // delete icon for meetup entries
 import ClearIcon from '@mui/icons-material/Clear';
 
-const MeetupTable = (props) => {
+const MeetupTable = ({ meetups, setMeetups, user }) => {
 /// ////////////////////////////////////////////////////////////////
-  // console.log('Table PROPS', props);
+  // console.log('Table , ;
   const handleDelete = (e) => {
-    console.log('target meetup', props.meetups[e]);
+    console.log('target meetup', meetups[e]);
 
-    axios.put('/api/meetups/delete', props.meetups[e])
+    axios.put('/api/meetups/delete', meetups[e])
       .then((data) => console.log('PUT DATA', data))
       .catch((err) => {
         console.error(err);
       });
-    props.setMeetups(props.meetups.filter((meetup) => meetup._id !== props.meetups[e]._id));
+    setMeetups(meetups.filter((meetup) => meetup._id !== meetups[e]._id));
   };
-
   /// ////////////////////////////////////////////////////////////
   return (
     <TableContainer component={Paper}>
@@ -42,7 +41,7 @@ const MeetupTable = (props) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.meetups.map((meetup, i) => (
+        {meetups.map((meetup, i) => (
 
           <TableRow key={meetup.meetupName + meetup.meetupDate}>
             <TableCell component="th" scope="row">
@@ -50,16 +49,25 @@ const MeetupTable = (props) => {
             </TableCell>
             <TableCell align="right">{meetup.meetupDate}</TableCell>
             <TableCell align="right">{meetup.meetupLocation}</TableCell>
-            <TableCell align="right">Doing {meetup.routine.length} exercises</TableCell>
 
-            <TableCell align="right">{`${props.user.nameFirst} ${props.user.nameLast}`}</TableCell>
+            <TableCell align="right">
+              {
+
+                    meetup.routine.map((exercise, indx) => (
+                        <p key={indx}>{exercise.name}</p>
+                    ))
+
+              }
+
+              </TableCell>
+
+            <TableCell align="right">{`${user.nameFirst} ${user.nameLast}`}</TableCell>
 
             <TableCell align="right">
 
               {
-              props.attendees.map((friend, index) => (
-
-                  <p key={index}>{`${friend.nameFirst} ${friend.nameLast}`}</p>
+              meetup.attendees.map((attendee, ind) => (
+                      <p key={ind}>{attendee}</p>
               ))
 
               }
