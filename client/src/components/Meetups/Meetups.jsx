@@ -66,6 +66,7 @@ const Meetups = (props) => {
 
       updateMeetupResponse();
     }
+    setAttendees([])
   };
   /// ///////////////////////////////////////////////////
   const handleNameChange = (e) => {
