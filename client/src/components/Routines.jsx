@@ -24,7 +24,7 @@ const Routines = ({ userId, user, fetchUser }) => {
   };
   const fetchSavedExercises = async () => {
     try {
-      const response = await axios.get(`/api/users/${userId}`);
+      const response = await axios.get(`/api/users/${user.googleId}`);
       setRoutineData(
         response.data.map((exercise) => ({
           ...exercise,

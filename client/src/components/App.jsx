@@ -67,11 +67,11 @@ const App = () => {
     // Check if user is authenticated
     const checkAuth = async () => {
       try {
-        
+
         const response = await axios.get('/api/check-auth');
         const meetupResponse = await axios.get('/api/meetups');
         setIsAuthenticated(response.data.isAuthenticated);
-        
+
         setMeetups(meetupResponse.data)
         // Fetch user profile if authenticated
         if (response.data.isAuthenticated) {
@@ -88,7 +88,7 @@ const App = () => {
     };
     checkAuth();
   }, []);
-  
+
 
 
 
@@ -96,7 +96,7 @@ const App = () => {
     try {
       const response = await axios.get(endpoint);
       const shuffleData = response.data.sort(() => 0.5 - Math.random());
-      const selectExercises = shuffleData.slice(0, 3);
+      const selectExercises = shuffleData.slice(0, 5);
       setExercises(selectExercises);
     } catch (error) {
       console.error('Error Fetching');

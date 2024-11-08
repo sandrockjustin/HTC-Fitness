@@ -74,6 +74,18 @@ const Badges = ({ user, fetchUser }) => {
     }
   };
 
+  // handle progress reset
+  const resetProgress = () => {
+    const choice = confirm('Delete all progress?');
+    if (choice) {
+      axios.patch(`/api/badges/reset/${user.googleId}`)
+        .then(() => fetchUser())
+        .catch(() => {
+          console.error('Failed to reset progress');
+        });
+    }
+  };
+
   return (
     <Box height='auto' sx={{ overflowY: 'auto', paddingTop: '20px' }}>
       <Typography variant="h6" align="center">Display Badge</Typography>
@@ -81,17 +93,17 @@ const Badges = ({ user, fetchUser }) => {
        {switchIcon(selectedBadge)}
       </Box>
       <Box display="flex" justifyContent="center" flexDirection='row' >
-        <FormControl sx={{ display: 'flex', width: 'auto' }}>
+        <FormControl name='display-badge' sx={{ display: 'flex', width: 'auto' }}>
           <Select
             id="badge-select"
             value={selectedBadge.name || ''}
             onChange={handleBadgeChange}
             displayEmpty
           >
-            <MenuItem value="" disabled>Select a badge</MenuItem>
+            <MenuItem name='select'value="" disabled>Select a badge</MenuItem>
             {badges.map((badge, index) => (
-              <MenuItem key={index} value={badge.name} style={{ display: 'flex', alignItems: 'center' }}>
-              <ListItemIcon>
+              <MenuItem name='badge' key={index} value={badge.name} style={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemIcon name='badge-icon'>
                 {switchIcon(badge.name)}
               </ListItemIcon>
               {badge.name}
@@ -160,6 +172,9 @@ const Badges = ({ user, fetchUser }) => {
               </Box>
               </Box>
               ))}
+          </Box>
+          <Box>
+            <button onClick={resetProgress} style={{ backgroundColor: 'red' }}> Reset Progress</button>
           </Box>
         </Box>
       </Box>
