@@ -81,7 +81,6 @@ router.get('/badgeCheck', async (req, res) => {
 
 router.patch('/displayBadge/:id', async (req, res) => {
   const newBadge = req.params.id;
-  console.log('newbadge', newBadge);
   try {
     const user = await User.find({ googleId: req.user.googleId });
     if (!user) {
@@ -97,6 +96,34 @@ router.patch('/displayBadge/:id', async (req, res) => {
   } catch (err) {
     res.sendStatus(500);
   }
+});
+
+router.patch('/reset/:userId', (req, res) => {
+  const { userId } = req.params;
+  console.log('userId', userId);
+  User.findOneAndUpdate(
+    { googleId: userId },
+    {
+      $set: {
+        badges: [],
+        numOfSavedExercises: 0,
+        completedExercises: 0,
+      },
+    },
+    { new: true },
+  )
+    .then((user) => {
+      console.log('resetUser', user);
+      if (!user) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(201);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
