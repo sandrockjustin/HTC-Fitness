@@ -27,8 +27,6 @@ const SearchUsers = (props) => {
       num_friends: friend.friends_list.length
     }
 
-    console.log(`Adding new friend: `, newFriend)
-
     const existingFriends = props.user.friends_list.map((friend) => {
       return friend.googleId;
     })
