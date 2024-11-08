@@ -74,7 +74,7 @@ router.patch('/', async (req, res) => {
     res.sendStatus(200);
 
   } catch (error) {
-    console.error(`Error on patching user friends, updating items.`)
+    console.error(`Error on patching user friends, updating items.`, error)
     res.sendStatus(500);
   }
 
