@@ -13,10 +13,9 @@ import Checkbox from '@mui/material/Checkbox';
 export default function FriendSelect(props) {
   const friends = props.friends.map((friend) => friend);
 
-  const [selectedFriend, setSelectedFriend] = useState({});
 
   const handleChange = (event) => {
-    setSelectedFriend(event.target.value);
+    props.setAttendees(props.attendees.concat(event.target.value));
   };
 
   // console.log('FRIENDS LIST', friendsList);
@@ -29,7 +28,7 @@ export default function FriendSelect(props) {
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           onChange={handleChange}
-          value={selectedFriend}
+          value={props.attendees}
         >
         {
           friends.map((friend, i) => (

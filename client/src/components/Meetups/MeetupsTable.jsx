@@ -25,7 +25,6 @@ const MeetupTable = (props) => {
       });
     props.setMeetups(props.meetups.filter((meetup) => meetup._id !== props.meetups[e]._id));
   };
-  
 
   /// ////////////////////////////////////////////////////////////
   return (
@@ -58,9 +57,10 @@ const MeetupTable = (props) => {
             <TableCell align="right">
 
               {
-              props.user.friends_list.map((friend) => {
-                <p>{`${friend.nameFirst} ${friend.nameLast}`}</p>;
-              })
+              props.attendees.map((friend, index) => (
+
+                  <p key={index}>{`${friend.nameFirst} ${friend.nameLast}`}</p>
+              ))
 
               }
 

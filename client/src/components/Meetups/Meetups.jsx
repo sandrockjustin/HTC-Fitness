@@ -40,6 +40,7 @@ const Meetups = (props) => {
   const [meetupName, setMeetupName] = useState('');
   const [location, setLocation] = useState('');
   const [attendees, setAttendees] = useState([]);
+ 
 
   /// /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -107,7 +108,12 @@ const Meetups = (props) => {
       </LocalizationProvider>
 {/* ////////////////////////////////////////////////////////////////////// */}
         <div style={{ padding: '15px' }}></div>
-      <FriendSelect friends={props.user.friends_list} sx={{ backgroundColor: 'grey' }}/>
+      <FriendSelect
+      attendees={attendees}
+      setAttendees={setAttendees}
+      friends={props.user.friends_list}
+      sx={{ backgroundColor: 'grey' }}
+      />
       <div style={{ padding: '15px' }}></div>
 {/* /////////////////////////////////////////////////////////////////////// */}
       < SubmitButt sx={{
