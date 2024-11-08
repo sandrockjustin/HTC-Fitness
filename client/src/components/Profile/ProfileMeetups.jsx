@@ -25,6 +25,16 @@ const ProfileMeetups = (props) => {
             <TableCell align="right">Number of Attendees</TableCell>
           </TableRow>
         </TableHead>
+      </Table>
+    </TableContainer>
+  )
+}
+
+export default ProfileMeetups;
+
+
+
+/*
         <TableBody>
         {props.user.meetups_list.map((meetup) => (
             <TableRow
@@ -41,27 +51,4 @@ const ProfileMeetups = (props) => {
             </TableRow>
           ))}
         </TableBody>
-      </Table>
-    </TableContainer>
-  )
-}
-
-export default ProfileMeetups;
-
-/*
-Saving this for when we have meetups to test
-          {props.user.meetups_list.map((meetup) => (
-            <TableRow
-              key={meetup._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {meetup.meetupName}
-              </TableCell>
-              <TableCell align="right">{meetup.meetupLocation}</TableCell>
-              <TableCell align="right">{meetup.meetupDate}</TableCell>
-              <TableCell align="right">{meetup.routine.length}</TableCell>
-              <TableCell align="right">{meetup.attendees.length}</TableCell>
-            </TableRow>
-          ))}
 */
