@@ -9,6 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionActions from '@mui/material/AccordionActions';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 // delete icon for meetup entries
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -34,7 +40,7 @@ const MeetupTable = ({ meetups, setMeetups, user }) => {
           <TableCell>Meetup Name</TableCell>
           <TableCell align="right"><h3>Date/Time</h3></TableCell>
           <TableCell align="right"><h3>Location</h3></TableCell>
-          <TableCell align="right"><h3>Routine</h3></TableCell>
+          <TableCell align="center" sx={{ paddingLeft: '100px' }}><h3>Routine</h3></TableCell>
           <TableCell align="right"><h3>Host</h3></TableCell>
           <TableCell align="right"><h3>Attendees</h3></TableCell>
           <TableCell align="right"></TableCell>
@@ -51,13 +57,26 @@ const MeetupTable = ({ meetups, setMeetups, user }) => {
             <TableCell align="right">{meetup.meetupLocation}</TableCell>
 
             <TableCell align="right">
+
+            <Accordion sx={{ float: 'right' }}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1-content"
+                id="panel1-header"
+              >
+                view exercises
+              </AccordionSummary>
+              <AccordionDetails>
               {
 
                     meetup.routine.map((exercise, indx) => (
+
                         <p key={indx}>{exercise.name}</p>
                     ))
 
               }
+              </AccordionDetails>
+            </Accordion>
 
               </TableCell>
 

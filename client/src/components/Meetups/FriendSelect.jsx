@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -21,25 +21,13 @@ const MenuProps = {
   },
 };
 
-///////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////
 
 export default function FriendSelect(props) {
   const friends = props.friends.map((friend) => friend);
   // console.log(friends);
 
-
-
-
-
-
-
-
-
-
-
-
   const handleChange = (event) => {
-
     const {
       target: { value },
     } = event;
@@ -51,7 +39,7 @@ export default function FriendSelect(props) {
   // console.log("FS PROPS", props)
 
   // console.log('FRIENDS LIST', friendsList);
-//////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////
   return (
     <Box sx={{ minWidth: 200, backgroundColor: 'grey' }}>
       <FormControl fullWidth>
@@ -76,7 +64,7 @@ export default function FriendSelect(props) {
               <Checkbox checked={props.attendees.includes(`${friend.nameFirst} ${friend.nameLast}`)} />
               <ListItemText primary={`${friend.nameFirst} ${friend.nameLast}`}/>
             {/* {console.log('FRIEND', `${friend.nameFirst} ${friend.nameLast}`)} */}
-            
+
             </MenuItem>
 
           ))
