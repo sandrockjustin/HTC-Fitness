@@ -21,7 +21,24 @@ const SearchUsers = (props) => {
   useEffect(() => {
     axios.get('/api/users')
       .then((response) => {
-        setUsers(response.data);
+
+        // filter known friends to create an array of IDs
+        const friendIDs = props.user.friends_list.map((user) => {
+          return user.googleId;
+        })
+
+        const filteredData = response.data.filter((user) => {
+          const alreadyFriend = friendIDs.includes(user.googleId);
+          const isSelf = (props.user.googleId === user.googleId);
+
+          if (!alreadyFriend && !isSelf){
+            return true;
+          }
+        })
+
+        console.log(filteredData);
+
+        setUsers(filteredData);
       })
       .catch((error) => {
         console.error(`Error on request searching users, requesting all users.`)
@@ -124,7 +141,7 @@ const SearchUsers = (props) => {
                       </React.Fragment>
                     }
                     />
-                    <PersonAddAlt1Icon onClick={() => addFriend(user)} sx={{":hover": {color: 'red'}}}/>
+                    <PersonAddAlt1Icon onClick={() => addFriend(user)} sx={{":hover": {color: 'cyan'}}}/>
                   <Divider variant="middle"/>
                 </ListItem>
               ))
